@@ -1,0 +1,9 @@
+tr_differential_node:
+  ros__parameters:
+
+    #robot's geometric parameters:
+    wheelDiameter: 0.15
+    robotLength: 0.837
+    robotWidth: 0.587
+    odomFrame: "odom"
+    robotBaseFrame: "base_footprint"
