@@ -1,0 +1,5 @@
+# VSCode 설정 폴더 무시
+.vscode/
+
+# log 폴더 무시
+log/
