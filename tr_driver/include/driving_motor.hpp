@@ -22,6 +22,7 @@
 #include "nlohmann/json.hpp"
 #include "motor_define.hpp"
 #include "sensor_msgs/msg/joint_state.hpp"
+#include <trajectory_msgs/msg/joint_trajectory.hpp>
 
 #include <memory>
 #include <iostream>
