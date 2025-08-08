@@ -53,28 +53,35 @@ public:
 	PlatformCtrlNode(): Node("tr_differential_node") {}
 
 	int init() {
-		topicPub_Odometry = this->create_publisher<nav_msgs::msg::Odometry>("odom", 1000);
-		// topicPub_DriveCommands = this->create_publisher<trajectory_msgs::msg::JointTrajectory>("drives/joint_trajectory", 1000);
-		topicPub_DriveCommands = this->create_publisher<trajectory_msgs::msg::JointTrajectory>("/joint_trajectory_controller/joint_trajectory", 1000);
-		topicSub_ComVel = this->create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 1, std::bind(&PlatformCtrlNode::receiveCmd, this, _1));
-		// topicSub_DriveState = this->create_subscription<sensor_msgs::msg::JointState>("drives/joint_states", 10, std::bind(&PlatformCtrlNode::receiveOdo, this, _1));
-		topicSub_DriveState = this->create_subscription<sensor_msgs::msg::JointState>("joint_states", 10, std::bind(&PlatformCtrlNode::receiveOdo, this, _1));
-		odom_broadcaster = std::make_shared<tf2_ros::TransformBroadcaster>(this);
-
 		this->declare_parameter<double>("wheelDiameter", 0.3);
-		this->declare_parameter<double>("robotWidth", 0.5);
+		this->declare_parameter<double>("wheelSeperation", 0.5);
 		this->declare_parameter<std::string>("odomFrame", "odom");
 		this->declare_parameter<std::string>("robotBaseFrame", "base_footprint");
+		this->declare_parameter<std::string>("joint_trajectory_topic", "drives/joint_trajectory");
+		this->declare_parameter<std::string>("joint_states_topic", "drives/joint_states");
 
 		this->get_parameter("wheelDiameter", wheelDiameter);
-		this->get_parameter("robotWidth", axisLength);
+		this->get_parameter("wheelSeperation", axisLength);
 		this->get_parameter("odomFrame", odomFrame);
 		this->get_parameter("robotBaseFrame", robotBaseFrame);
+		this->get_parameter("joint_trajectory_topic", joint_trajectory_topic);
+		this->get_parameter("joint_states_topic", joint_states_topic);
+
+		topicPub_Odometry = this->create_publisher<nav_msgs::msg::Odometry>("odom", 1000);
+    	topicPub_DriveCommands = this->create_publisher<trajectory_msgs::msg::JointTrajectory>(joint_trajectory_topic, 1000);
+		topicSub_ComVel = this->create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 1, std::bind(&PlatformCtrlNode::receiveCmd, this, _1));
+		topicSub_DriveState = this->create_subscription<sensor_msgs::msg::JointState>(joint_states_topic, 10, std::bind(&PlatformCtrlNode::receiveOdo, this, _1));
+		odom_broadcaster = std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
 		DiffDrive2WKinematics* diffKin = new DiffDrive2WKinematics();
 		diffKin->setWheelDiameter(wheelDiameter);
 		diffKin->setAxisLength(axisLength);
 		kin = diffKin;
+
+		RCLCPP_INFO(this->get_logger(), "Kinematics node initialized.");
+		RCLCPP_INFO(this->get_logger(), "Subscribing to joint states on: %s", joint_states_topic.c_str());
+		RCLCPP_INFO(this->get_logger(), "Publishing joint commands to: %s", joint_trajectory_topic.c_str());
+
 		return 0;
 	}
 
@@ -136,6 +143,8 @@ private:
 
 	std::string odomFrame;
 	std::string robotBaseFrame;
+    std::string joint_trajectory_topic;
+    std::string joint_states_topic;
 };
 
 int main (int argc, char** argv)
