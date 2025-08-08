@@ -20,6 +20,7 @@
   <test_depend>ament_lint_common</test_depend>
   <depend>tr_driver_msgs</depend>
   <depend>sensor_msgs</depend>
+  <depend>trajectory_msgs</depend>
   <build_depend>liblely-coapp</build_depend>
   <exec_depend>liblely-coapp</exec_depend>
   <build_depend>liblely-util</build_depend>

@@ -29,6 +29,7 @@ find_package(Boost )
 find_package(nlohmann_json REQUIRED)
 find_package(tr_driver_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(trajectory_msgs REQUIRED)
 
 # uncomment the following section in order to fill in
 # further dependencies manually.
@@ -43,6 +44,7 @@ set(DEPENDENCIES
   "nlohmann_json"
   "tr_driver_msgs"
   "sensor_msgs"
+  "trajectory_msgs"
 )
 
 add_executable(driving_motor_node src/main.cpp src/driving_motor.cpp) 

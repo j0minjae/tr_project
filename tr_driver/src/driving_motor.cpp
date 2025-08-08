@@ -28,7 +28,7 @@ DrivingMotorsCanOpen::DrivingMotorsCanOpen() : Node("driving_motor")
 
     sample_time_ = 1.0 / motor_freq_;
 
-    joint_state_publisher_ = this->create_publisher<sensor_msgs::msg::JointState>("joint_states", 10);
+    joint_state_publisher_ = this->create_publisher<sensor_msgs::msg::JointState>("drives/joint_states", 10);
     joint_state_publisher_timer_ = this->create_wall_timer(
         std::chrono::milliseconds(10),
         std::bind(&DrivingMotorsCanOpen::publishJointStateCallback, this));
@@ -59,7 +59,7 @@ void DrivingMotorsCanOpen::declareParameters()
     this->declare_parameter("num_driver", 1);
     // 제공된 모터 사양을 기본값으로 설정
     this->declare_parameter("gear_ratio", 20.0);
-    this->declare_parameter("ticks_per_revolution", 4096.0);
+    this->declare_parameter("ticks_per_revolution", 65536.0);
     this->declare_parameter("joint_trajectory_topic", "drives/joint_trajectory");
     RCLCPP_INFO(get_logger(), "driving_motor_node declareParameters finished! ");
 }
