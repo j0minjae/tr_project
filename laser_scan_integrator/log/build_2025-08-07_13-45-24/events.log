@@ -1,0 +1,333 @@
+[0.000000] (-) TimerEvent: {}
+[0.000121] (laser_scan_integrator) JobQueued: {'identifier': 'laser_scan_integrator', 'dependencies': OrderedDict()}
+[0.000150] (laser_scan_integrator) JobStarted: {'identifier': 'laser_scan_integrator'}
+[0.021311] (laser_scan_integrator) JobProgress: {'identifier': 'laser_scan_integrator', 'progress': 'cmake'}
+[0.022128] (laser_scan_integrator) Command: {'cmd': ['/usr/bin/cmake', '/home/home/tr_laser_scan_integrator', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/home/home/tr_laser_scan_integrator/install/laser_scan_integrator'], 'cwd': '/home/home/tr_laser_scan_integrator/build/laser_scan_integrator', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('LANGUAGE', 'en'), ('USER', 'home'), ('LC_TIME', 'en_US.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/home'), ('OLDPWD', '/home/home'), ('DESKTOP_SESSION', 'ubuntu'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/terminator.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'en_US.UTF-8'), ('MANAGERPID', '897'), ('SYSTEMD_EXEC_PID', '1033'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '3882'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/home/tr_laser_test_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'home'), ('JOURNAL_STREAM', '8:11611'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('LELY_LOG_LEVEL', '6'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'home'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/home-UNO-238:@/tmp/.ICE-unix/1004,unix/home-UNO-238:/tmp/.ICE-unix/1004'), ('INVOCATION_ID', 'dec6f08347614ddc8da48aa311dd13f3'), ('PAPERSIZE', 'letter'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'en_US.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LD_PRELOAD', ''), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'en_US.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.3OYYA3'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/home/tr_laser_test_ws/install/tr_description:/home/home/tr_laser_test_ws/install/sick_safetyscanners2:/home/home/tr_laser_test_ws/install/laser_scan_integrator:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'en_US.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:52d10fb5-1806-4ad7-8496-fb306f3d31a9'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'en_US.UTF-8'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'en_US.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/home/tr_laser_scan_integrator/build/laser_scan_integrator'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GEMINI_API_KEY', 'AIzaSyDN8OeJ-A1auHNf4eS1HEY1Yxu3wkf0UOM'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'en_US.UTF-8'), ('LC_PAPER', 'en_US.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/home/tr_laser_test_ws/install/tr_description:/home/home/tr_laser_test_ws/install/sick_safetyscanners2:/home/home/tr_laser_test_ws/install/laser_scan_integrator:/opt/ros/humble')]), 'shell': False}
+[0.099448] (-) TimerEvent: {}
+[0.200082] (-) TimerEvent: {}
+[0.206630] (laser_scan_integrator) StdoutLine: {'line': b'-- The C compiler identification is GNU 12.3.0\n'}
+[0.300369] (-) TimerEvent: {}
+[0.357011] (laser_scan_integrator) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.368739] (laser_scan_integrator) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.400484] (-) TimerEvent: {}
+[0.429742] (laser_scan_integrator) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.437173] (laser_scan_integrator) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.437925] (laser_scan_integrator) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.438781] (laser_scan_integrator) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.442587] (laser_scan_integrator) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.500628] (-) TimerEvent: {}
+[0.509113] (laser_scan_integrator) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.516350] (laser_scan_integrator) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.516612] (laser_scan_integrator) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.517002] (laser_scan_integrator) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.532586] (laser_scan_integrator) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.600756] (-) TimerEvent: {}
+[0.665183] (laser_scan_integrator) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[0.700885] (-) TimerEvent: {}
+[0.725729] (laser_scan_integrator) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[0.759924] (laser_scan_integrator) StdoutLine: {'line': b'-- Found rclcpp: 16.0.14 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[0.801039] (-) TimerEvent: {}
+[0.815219] (laser_scan_integrator) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[0.820971] (laser_scan_integrator) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.832262] (laser_scan_integrator) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[0.850448] (laser_scan_integrator) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.869447] (laser_scan_integrator) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.901162] (-) TimerEvent: {}
+[0.922176] (laser_scan_integrator) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[0.925802] (laser_scan_integrator) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.8 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[1.001282] (-) TimerEvent: {}
+[1.004337] (laser_scan_integrator) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[1.025852] (laser_scan_integrator) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[1.057492] (laser_scan_integrator) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[1.068061] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[1.101470] (-) TimerEvent: {}
+[1.126963] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[1.127401] (laser_scan_integrator) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[1.189955] (laser_scan_integrator) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[1.190905] (laser_scan_integrator) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[1.201562] (-) TimerEvent: {}
+[1.266535] (laser_scan_integrator) StdoutLine: {'line': b'-- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[1.301725] (-) TimerEvent: {}
+[1.311653] (laser_scan_integrator) StdoutLine: {'line': b'-- Found tf2_geometry_msgs: 0.25.15 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)\n'}
+[1.327079] (laser_scan_integrator) StdoutLine: {'line': b'-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)\n'}
+[1.329268] (laser_scan_integrator) StdoutLine: {'line': b'-- Found Eigen3: TRUE (found version "3.4.0") \n'}
+[1.329450] (laser_scan_integrator) StdoutLine: {'line': b'-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target\n'}
+[1.401910] (-) TimerEvent: {}
+[1.469261] (laser_scan_integrator) StdoutLine: {'line': b'-- Found tf2_sensor_msgs: 0.25.15 (/opt/ros/humble/share/tf2_sensor_msgs/cmake)\n'}
+[1.488170] (laser_scan_integrator) StdoutLine: {'line': b'-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found version "1.74.0") found components: system \n'}
+[1.502028] (-) TimerEvent: {}
+[1.503187] (laser_scan_integrator) StdoutLine: {'line': b"-- Checking for module 'eigen3'\n"}
+[1.512433] (laser_scan_integrator) StdoutLine: {'line': b'--   Found eigen3, version 3.4.0\n'}
+[1.533788] (laser_scan_integrator) StdoutLine: {'line': b'-- Found Eigen: /usr/include/eigen3 (Required is at least version "3.1") \n'}
+[1.534169] (laser_scan_integrator) StdoutLine: {'line': b'-- Eigen found (include: /usr/include/eigen3, version: 3.4.0)\n'}
+[1.550222] (laser_scan_integrator) StdoutLine: {'line': b'-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.65.0") found components: system filesystem date_time iostreams serialization \n'}
+[1.562210] (laser_scan_integrator) StdoutLine: {'line': b"-- Checking for module 'flann'\n"}
+[1.571867] (laser_scan_integrator) StdoutLine: {'line': b'--   Found flann, version 1.9.1\n'}
+[1.596979] (laser_scan_integrator) StdoutLine: {'line': b'-- Found FLANN: /usr/lib/x86_64-linux-gnu/libflann_cpp.so  \n'}
+[1.597131] (laser_scan_integrator) StdoutLine: {'line': b'-- FLANN found (include: /usr/include, lib: /usr/lib/x86_64-linux-gnu/libflann_cpp.so)\n'}
+[1.602128] (-) TimerEvent: {}
+[1.633759] (laser_scan_integrator) StdoutLine: {'line': b'-- Found GLEW: /usr/lib/x86_64-linux-gnu/libGLEW.so  \n'}
+[1.639925] (laser_scan_integrator) StdoutLine: {'line': b'-- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so  found components: OpenGL GLX \n'}
+[1.702297] (-) TimerEvent: {}
+[1.773044] (laser_scan_integrator) StdoutLine: {'line': b'-- Found MPI_C: /usr/lib/x86_64-linux-gnu/libmpi.so (found version "3.1") \n'}
+[1.773236] (laser_scan_integrator) StdoutLine: {'line': b'-- Found MPI: TRUE (found version "3.1") found components: C \n'}
+[1.775484] (laser_scan_integrator) StdoutLine: {'line': b'-- Found JsonCpp: /usr/lib/x86_64-linux-gnu/libjsoncpp.so (found suitable version "1.9.5", minimum required is "0.7.0") \n'}
+[1.783748] (laser_scan_integrator) StdoutLine: {'line': b'-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11") \n'}
+[1.798199] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PNG: /usr/lib/x86_64-linux-gnu/libpng.so (found version "1.6.37") \n'}
+[1.802378] (-) TimerEvent: {}
+[1.823407] (laser_scan_integrator) StdoutLine: {'line': b'-- Found Eigen3: /usr/include/eigen3 (found version "3.4.0") \n'}
+[1.890847] (laser_scan_integrator) StdoutLine: {'line': b'-- Found X11: /usr/include   \n'}
+[1.891568] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so\n'}
+[1.902504] (-) TimerEvent: {}
+[1.953374] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found\n'}
+[1.953790] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for gethostbyname\n'}
+[2.002650] (-) TimerEvent: {}
+[2.009501] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for gethostbyname - found\n'}
+[2.009923] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for connect\n'}
+[2.066653] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for connect - found\n'}
+[2.066974] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for remove\n'}
+[2.102780] (-) TimerEvent: {}
+[2.123920] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for remove - found\n'}
+[2.124133] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for shmat\n'}
+[2.183416] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for shmat - found\n'}
+[2.183684] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE\n'}
+[2.202897] (-) TimerEvent: {}
+[2.241722] (laser_scan_integrator) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE - found\n'}
+[2.303000] (laser_scan_integrator) StdoutLine: {'line': b'-- Found EXPAT: /usr/lib/x86_64-linux-gnu/libexpat.so (found version "2.4.7") \n'}
+[2.303154] (-) TimerEvent: {}
+[2.304927] (laser_scan_integrator) StdoutLine: {'line': b'-- Found double-conversion: /usr/lib/x86_64-linux-gnu/libdouble-conversion.so  \n'}
+[2.307613] (laser_scan_integrator) StdoutLine: {'line': b'-- Found LZ4: /usr/lib/x86_64-linux-gnu/liblz4.so (found version "1.9.3") \n'}
+[2.309148] (laser_scan_integrator) StdoutLine: {'line': b'-- Found LZMA: /usr/lib/x86_64-linux-gnu/liblzma.so (found version "5.2.5") \n'}
+[2.319552] (laser_scan_integrator) StdoutLine: {'line': b'-- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "80") \n'}
+[2.324069] (laser_scan_integrator) StdoutLine: {'line': b'-- Found TIFF: /usr/lib/x86_64-linux-gnu/libtiff.so (found version "4.3.0")  \n'}
+[2.328193] (laser_scan_integrator) StdoutLine: {'line': b'-- Found Freetype: /usr/lib/x86_64-linux-gnu/libfreetype.so (found version "2.11.1") \n'}
+[2.334679] (laser_scan_integrator) StdoutLine: {'line': b'-- Found utf8cpp: /usr/include/utf8cpp  \n'}
+[2.401389] (laser_scan_integrator) StdoutLine: {'line': b"-- Checking for module 'libusb-1.0'\n"}
+[2.403283] (-) TimerEvent: {}
+[2.411397] (laser_scan_integrator) StdoutLine: {'line': b'--   Found libusb-1.0, version 1.0.25\n'}
+[2.435392] (laser_scan_integrator) StdoutLine: {'line': b'-- Found libusb: /usr/lib/x86_64-linux-gnu/libusb-1.0.so  \n'}
+[2.436852] (laser_scan_integrator) StdoutLine: {'line': b'-- Found OpenNI: /usr/lib/libOpenNI.so;libusb::libusb (found version "1.5.4.0") \n'}
+[2.437013] (laser_scan_integrator) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[2.475990] (laser_scan_integrator) StdoutLine: {'line': b'-- Found OpenNI2: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb (found version "2.2.0.33") \n'}
+[2.476164] (laser_scan_integrator) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[2.476266] (laser_scan_integrator) StderrLine: {'line': b'\x1b[0m** WARNING ** io features related to pcap will be disabled\x1b[0m\n'}
+[2.503392] (-) TimerEvent: {}
+[2.603702] (-) TimerEvent: {}
+[2.618892] (laser_scan_integrator) StdoutLine: {'line': b'-- Eigen found (include: /usr/include/eigen3, version: 3.4.0)\n'}
+[2.624183] (laser_scan_integrator) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[2.629607] (laser_scan_integrator) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[2.703847] (-) TimerEvent: {}
+[2.758207] (laser_scan_integrator) StdoutLine: {'line': b'-- Found Qhull version 8.0.2\n'}
+[2.803988] (-) TimerEvent: {}
+[2.882958] (laser_scan_integrator) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[2.904105] (-) TimerEvent: {}
+[3.004031] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_COMMON\n'}
+[3.004208] (-) TimerEvent: {}
+[3.004881] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_COMMON: /usr/lib/x86_64-linux-gnu/libpcl_common.so  \n'}
+[3.005129] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_KDTREE\n'}
+[3.005771] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_KDTREE: /usr/lib/x86_64-linux-gnu/libpcl_kdtree.so  \n'}
+[3.005967] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_OCTREE\n'}
+[3.006579] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_OCTREE: /usr/lib/x86_64-linux-gnu/libpcl_octree.so  \n'}
+[3.006762] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_SEARCH\n'}
+[3.007336] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_SEARCH: /usr/lib/x86_64-linux-gnu/libpcl_search.so  \n'}
+[3.007579] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_SAMPLE_CONSENSUS\n'}
+[3.008195] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_SAMPLE_CONSENSUS: /usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so  \n'}
+[3.008444] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_FILTERS\n'}
+[3.009053] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_FILTERS: /usr/lib/x86_64-linux-gnu/libpcl_filters.so  \n'}
+[3.009221] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_2D\n'}
+[3.009599] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_2D: /usr/include/pcl-1.12  \n'}
+[3.009712] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_GEOMETRY\n'}
+[3.009982] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_GEOMETRY: /usr/include/pcl-1.12  \n'}
+[3.010145] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_IO\n'}
+[3.010761] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_IO: /usr/lib/x86_64-linux-gnu/libpcl_io.so  \n'}
+[3.011005] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_FEATURES\n'}
+[3.011677] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_FEATURES: /usr/lib/x86_64-linux-gnu/libpcl_features.so  \n'}
+[3.011924] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_ML\n'}
+[3.012571] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_ML: /usr/lib/x86_64-linux-gnu/libpcl_ml.so  \n'}
+[3.012774] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_SEGMENTATION\n'}
+[3.013420] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_SEGMENTATION: /usr/lib/x86_64-linux-gnu/libpcl_segmentation.so  \n'}
+[3.013646] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_VISUALIZATION\n'}
+[3.014335] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_VISUALIZATION: /usr/lib/x86_64-linux-gnu/libpcl_visualization.so  \n'}
+[3.014616] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_SURFACE\n'}
+[3.015283] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_SURFACE: /usr/lib/x86_64-linux-gnu/libpcl_surface.so  \n'}
+[3.015556] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_REGISTRATION\n'}
+[3.016174] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_REGISTRATION: /usr/lib/x86_64-linux-gnu/libpcl_registration.so  \n'}
+[3.016456] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_KEYPOINTS\n'}
+[3.017084] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_KEYPOINTS: /usr/lib/x86_64-linux-gnu/libpcl_keypoints.so  \n'}
+[3.017355] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_TRACKING\n'}
+[3.018010] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_TRACKING: /usr/lib/x86_64-linux-gnu/libpcl_tracking.so  \n'}
+[3.018224] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_RECOGNITION\n'}
+[3.018885] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_RECOGNITION: /usr/lib/x86_64-linux-gnu/libpcl_recognition.so  \n'}
+[3.019193] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_STEREO\n'}
+[3.019839] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_STEREO: /usr/lib/x86_64-linux-gnu/libpcl_stereo.so  \n'}
+[3.020012] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_APPS\n'}
+[3.020646] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_APPS: /usr/lib/x86_64-linux-gnu/libpcl_apps.so  \n'}
+[3.021144] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_IN_HAND_SCANNER\n'}
+[3.021464] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_IN_HAND_SCANNER: /usr/include/pcl-1.12  \n'}
+[3.021719] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_MODELER\n'}
+[3.021916] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_MODELER: /usr/include/pcl-1.12  \n'}
+[3.022119] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_POINT_CLOUD_EDITOR\n'}
+[3.022404] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_POINT_CLOUD_EDITOR: /usr/include/pcl-1.12  \n'}
+[3.022526] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_OUTOFCORE\n'}
+[3.023202] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_OUTOFCORE: /usr/lib/x86_64-linux-gnu/libpcl_outofcore.so  \n'}
+[3.023492] (laser_scan_integrator) StdoutLine: {'line': b'-- looking for PCL_PEOPLE\n'}
+[3.024114] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL_PEOPLE: /usr/lib/x86_64-linux-gnu/libpcl_people.so  \n'}
+[3.024844] (laser_scan_integrator) StdoutLine: {'line': b'-- Found PCL: pcl_common;pcl_kdtree;pcl_octree;pcl_search;pcl_sample_consensus;pcl_filters;pcl_io;pcl_features;pcl_ml;pcl_segmentation;pcl_visualization;pcl_surface;pcl_registration;pcl_keypoints;pcl_tracking;pcl_recognition;pcl_stereo;pcl_apps;pcl_outofcore;pcl_people;Boost::system;Boost::filesystem;Boost::date_time;Boost::iostreams;Boost::serialization;/usr/lib/libOpenNI.so;libusb::libusb;/usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb;VTK::ChartsCore;VTK::CommonColor;VTK::CommonComputationalGeometry;VTK::CommonCore;VTK::CommonDataModel;VTK::CommonExecutionModel;VTK::CommonMath;VTK::CommonMisc;VTK::CommonTransforms;VTK::FiltersCore;VTK::FiltersExtraction;VTK::FiltersGeneral;VTK::FiltersGeometry;VTK::FiltersModeling;VTK::FiltersSources;VTK::ImagingCore;VTK::ImagingSources;VTK::InteractionImage;VTK::InteractionStyle;VTK::InteractionWidgets;VTK::IOCore;VTK::IOGeometry;VTK::IOImage;VTK::IOLegacy;VTK::IOPLY;VTK::RenderingAnnotation;VTK::RenderingCore;VTK::RenderingContext2D;VTK::RenderingLOD;VTK::RenderingFreeType;VTK::ViewsCore;VTK::ViewsContext2D;VTK::RenderingOpenGL2;VTK::GUISupportQt;FLANN::FLANN;QHULL::QHULL  \n'}
+[3.033229] (laser_scan_integrator) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[3.104397] (-) TimerEvent: {}
+[3.111653] (laser_scan_integrator) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[3.116500] (laser_scan_integrator) StdoutLine: {'line': b"-- Added test 'cppcheck' to perform static code analysis on C / C++ code\n"}
+[3.116798] (laser_scan_integrator) StdoutLine: {'line': b'-- Configured cppcheck include dirs: /home/home/tr_laser_scan_integrator/include\n'}
+[3.116886] (laser_scan_integrator) StdoutLine: {'line': b'-- Configured cppcheck exclude dirs and/or files: \n'}
+[3.121375] (laser_scan_integrator) StdoutLine: {'line': b"-- Added test 'cpplint' to check C / C++ code against the Google style\n"}
+[3.121469] (laser_scan_integrator) StdoutLine: {'line': b'-- Configured cpplint exclude dirs and/or files: \n'}
+[3.122644] (laser_scan_integrator) StdoutLine: {'line': b"-- Added test 'flake8' to check Python code syntax and style conventions\n"}
+[3.124245] (laser_scan_integrator) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[3.125415] (laser_scan_integrator) StdoutLine: {'line': b"-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257\n"}
+[3.129927] (laser_scan_integrator) StdoutLine: {'line': b"-- Added test 'uncrustify' to check C / C++ code style\n"}
+[3.130042] (laser_scan_integrator) StdoutLine: {'line': b'-- Configured uncrustify additional arguments: \n'}
+[3.131160] (laser_scan_integrator) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[3.133088] (laser_scan_integrator) StdoutLine: {'line': b'-- Configuring done\n'}
+[3.146249] (laser_scan_integrator) StdoutLine: {'line': b'-- Generating done\n'}
+[3.151040] (laser_scan_integrator) StdoutLine: {'line': b'-- Build files have been written to: /home/home/tr_laser_scan_integrator/build/laser_scan_integrator\n'}
+[3.166644] (laser_scan_integrator) CommandEnded: {'returncode': 0}
+[3.167457] (laser_scan_integrator) JobProgress: {'identifier': 'laser_scan_integrator', 'progress': 'build'}
+[3.169087] (laser_scan_integrator) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/home/tr_laser_scan_integrator/build/laser_scan_integrator', '--', '-j8', '-l8'], 'cwd': '/home/home/tr_laser_scan_integrator/build/laser_scan_integrator', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('LANGUAGE', 'en'), ('USER', 'home'), ('LC_TIME', 'en_US.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/home'), ('OLDPWD', '/home/home'), ('DESKTOP_SESSION', 'ubuntu'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/terminator.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'en_US.UTF-8'), ('MANAGERPID', '897'), ('SYSTEMD_EXEC_PID', '1033'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '3882'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/home/tr_laser_test_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'home'), ('JOURNAL_STREAM', '8:11611'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('LELY_LOG_LEVEL', '6'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'home'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/home-UNO-238:@/tmp/.ICE-unix/1004,unix/home-UNO-238:/tmp/.ICE-unix/1004'), ('INVOCATION_ID', 'dec6f08347614ddc8da48aa311dd13f3'), ('PAPERSIZE', 'letter'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'en_US.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LD_PRELOAD', ''), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'en_US.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.3OYYA3'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/home/tr_laser_test_ws/install/tr_description:/home/home/tr_laser_test_ws/install/sick_safetyscanners2:/home/home/tr_laser_test_ws/install/laser_scan_integrator:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'en_US.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:52d10fb5-1806-4ad7-8496-fb306f3d31a9'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'en_US.UTF-8'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'en_US.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/home/tr_laser_scan_integrator/build/laser_scan_integrator'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GEMINI_API_KEY', 'AIzaSyDN8OeJ-A1auHNf4eS1HEY1Yxu3wkf0UOM'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'en_US.UTF-8'), ('LC_PAPER', 'en_US.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/home/tr_laser_test_ws/install/tr_description:/home/home/tr_laser_test_ws/install/sick_safetyscanners2:/home/home/tr_laser_test_ws/install/laser_scan_integrator:/opt/ros/humble')]), 'shell': False}
+[3.204531] (-) TimerEvent: {}
+[3.223152] (laser_scan_integrator) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/laser_scan_integrator.dir/src/main.cpp.o\x1b[0m\n'}
+[3.304666] (-) TimerEvent: {}
+[3.405034] (-) TimerEvent: {}
+[3.505381] (-) TimerEvent: {}
+[3.557806] (laser_scan_integrator) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/home/tr_laser_scan_integrator/src/main.cpp:12\x1b[m\x1b[K:\n'}
+[3.557951] (laser_scan_integrator) StderrLine: {'line': b'\x1b[01m\x1b[K/opt/ros/humble/include/tf2_geometry_msgs/tf2_geometry_msgs/tf2_geometry_msgs.h:35:2:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[K#warning This header is obsolete, please include tf2_geometry_msgs/tf2_geometry_msgs.hpp instead [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wcpp\x07-Wcpp\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[3.558026] (laser_scan_integrator) StderrLine: {'line': b'   35 | #\x1b[01;35m\x1b[Kwarning\x1b[m\x1b[K This header is obsolete, please include tf2_geometry_msgs/tf2_geometry_msgs.hpp instead\n'}
+[3.558076] (laser_scan_integrator) StderrLine: {'line': b'      |  \x1b[01;35m\x1b[K^~~~~~~\x1b[m\x1b[K\n'}
+[3.605539] (-) TimerEvent: {}
+[3.705929] (-) TimerEvent: {}
+[3.806253] (-) TimerEvent: {}
+[3.906571] (-) TimerEvent: {}
+[4.006882] (-) TimerEvent: {}
+[4.107158] (-) TimerEvent: {}
+[4.207490] (-) TimerEvent: {}
+[4.307876] (-) TimerEvent: {}
+[4.408191] (-) TimerEvent: {}
+[4.508488] (-) TimerEvent: {}
+[4.608804] (-) TimerEvent: {}
+[4.709127] (-) TimerEvent: {}
+[4.809389] (-) TimerEvent: {}
+[4.909732] (-) TimerEvent: {}
+[5.010064] (-) TimerEvent: {}
+[5.110390] (-) TimerEvent: {}
+[5.210695] (-) TimerEvent: {}
+[5.311041] (-) TimerEvent: {}
+[5.411383] (-) TimerEvent: {}
+[5.511773] (-) TimerEvent: {}
+[5.612132] (-) TimerEvent: {}
+[5.712522] (-) TimerEvent: {}
+[5.812944] (-) TimerEvent: {}
+[5.913364] (-) TimerEvent: {}
+[6.013689] (-) TimerEvent: {}
+[6.114031] (-) TimerEvent: {}
+[6.214369] (-) TimerEvent: {}
+[6.314709] (-) TimerEvent: {}
+[6.415003] (-) TimerEvent: {}
+[6.515353] (-) TimerEvent: {}
+[6.615682] (-) TimerEvent: {}
+[6.716003] (-) TimerEvent: {}
+[6.816340] (-) TimerEvent: {}
+[6.916664] (-) TimerEvent: {}
+[7.017034] (-) TimerEvent: {}
+[7.117362] (-) TimerEvent: {}
+[7.217693] (-) TimerEvent: {}
+[7.318028] (-) TimerEvent: {}
+[7.418415] (-) TimerEvent: {}
+[7.518793] (-) TimerEvent: {}
+[7.619086] (-) TimerEvent: {}
+[7.719382] (-) TimerEvent: {}
+[7.819736] (-) TimerEvent: {}
+[7.920105] (-) TimerEvent: {}
+[8.020506] (-) TimerEvent: {}
+[8.120869] (-) TimerEvent: {}
+[8.221207] (-) TimerEvent: {}
+[8.321538] (-) TimerEvent: {}
+[8.421919] (-) TimerEvent: {}
+[8.522260] (-) TimerEvent: {}
+[8.622602] (-) TimerEvent: {}
+[8.722923] (-) TimerEvent: {}
+[8.823231] (-) TimerEvent: {}
+[8.923559] (-) TimerEvent: {}
+[9.023883] (-) TimerEvent: {}
+[9.124243] (-) TimerEvent: {}
+[9.224551] (-) TimerEvent: {}
+[9.324882] (-) TimerEvent: {}
+[9.425244] (-) TimerEvent: {}
+[9.525617] (-) TimerEvent: {}
+[9.625974] (-) TimerEvent: {}
+[9.726340] (-) TimerEvent: {}
+[9.826643] (-) TimerEvent: {}
+[9.926958] (-) TimerEvent: {}
+[10.027293] (-) TimerEvent: {}
+[10.127600] (-) TimerEvent: {}
+[10.227920] (-) TimerEvent: {}
+[10.328265] (-) TimerEvent: {}
+[10.428712] (-) TimerEvent: {}
+[10.529027] (-) TimerEvent: {}
+[10.629369] (-) TimerEvent: {}
+[10.729728] (-) TimerEvent: {}
+[10.830035] (-) TimerEvent: {}
+[10.930351] (-) TimerEvent: {}
+[11.030693] (-) TimerEvent: {}
+[11.131010] (-) TimerEvent: {}
+[11.231326] (-) TimerEvent: {}
+[11.331678] (-) TimerEvent: {}
+[11.431993] (-) TimerEvent: {}
+[11.532356] (-) TimerEvent: {}
+[11.632671] (-) TimerEvent: {}
+[11.733001] (-) TimerEvent: {}
+[11.833354] (-) TimerEvent: {}
+[11.933660] (-) TimerEvent: {}
+[12.033955] (-) TimerEvent: {}
+[12.134252] (-) TimerEvent: {}
+[12.234655] (-) TimerEvent: {}
+[12.334924] (-) TimerEvent: {}
+[12.435252] (-) TimerEvent: {}
+[12.535617] (-) TimerEvent: {}
+[12.635953] (-) TimerEvent: {}
+[12.736321] (-) TimerEvent: {}
+[12.814878] (laser_scan_integrator) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable laser_scan_integrator\x1b[0m\n'}
+[12.836473] (-) TimerEvent: {}
+[12.936819] (-) TimerEvent: {}
+[13.037163] (-) TimerEvent: {}
+[13.137513] (-) TimerEvent: {}
+[13.237829] (-) TimerEvent: {}
+[13.338136] (-) TimerEvent: {}
+[13.387778] (laser_scan_integrator) StdoutLine: {'line': b'[100%] Built target laser_scan_integrator\n'}
+[13.401935] (laser_scan_integrator) CommandEnded: {'returncode': 0}
+[13.402908] (laser_scan_integrator) JobProgress: {'identifier': 'laser_scan_integrator', 'progress': 'install'}
+[13.414558] (laser_scan_integrator) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/home/tr_laser_scan_integrator/build/laser_scan_integrator'], 'cwd': '/home/home/tr_laser_scan_integrator/build/laser_scan_integrator', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('LANGUAGE', 'en'), ('USER', 'home'), ('LC_TIME', 'en_US.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/home'), ('OLDPWD', '/home/home'), ('DESKTOP_SESSION', 'ubuntu'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/terminator.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'en_US.UTF-8'), ('MANAGERPID', '897'), ('SYSTEMD_EXEC_PID', '1033'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '3882'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/home/tr_laser_test_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'home'), ('JOURNAL_STREAM', '8:11611'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('LELY_LOG_LEVEL', '6'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'home'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/home-UNO-238:@/tmp/.ICE-unix/1004,unix/home-UNO-238:/tmp/.ICE-unix/1004'), ('INVOCATION_ID', 'dec6f08347614ddc8da48aa311dd13f3'), ('PAPERSIZE', 'letter'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'en_US.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LD_PRELOAD', ''), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'en_US.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.3OYYA3'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/home/tr_laser_test_ws/install/tr_description:/home/home/tr_laser_test_ws/install/sick_safetyscanners2:/home/home/tr_laser_test_ws/install/laser_scan_integrator:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'en_US.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:52d10fb5-1806-4ad7-8496-fb306f3d31a9'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'en_US.UTF-8'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'en_US.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/home/tr_laser_scan_integrator/build/laser_scan_integrator'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GEMINI_API_KEY', 'AIzaSyDN8OeJ-A1auHNf4eS1HEY1Yxu3wkf0UOM'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'en_US.UTF-8'), ('LC_PAPER', 'en_US.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/home/tr_laser_test_ws/install/tr_description:/home/home/tr_laser_test_ws/install/sick_safetyscanners2:/home/home/tr_laser_test_ws/install/laser_scan_integrator:/opt/ros/humble')]), 'shell': False}
+[13.423183] (laser_scan_integrator) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[13.423774] (laser_scan_integrator) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[13.424717] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/launch/integrate_2_scan.launch.py\n'}
+[13.434112] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/launch/visualize_integrated_2_scan.launch.py\n'}
+[13.438257] (-) TimerEvent: {}
+[13.443432] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/rviz/laser_scan_integrator.rviz\n'}
+[13.452830] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/lib/laser_scan_integrator/laser_scan_integrator\n'}
+[13.461949] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/ament_index/resource_index/package_run_dependencies/laser_scan_integrator\n'}
+[13.471723] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/ament_index/resource_index/parent_prefix_path/laser_scan_integrator\n'}
+[13.480767] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/environment/ament_prefix_path.sh\n'}
+[13.490115] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/environment/ament_prefix_path.dsv\n'}
+[13.499353] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/environment/path.sh\n'}
+[13.508460] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/environment/path.dsv\n'}
+[13.517835] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/local_setup.bash\n'}
+[13.526945] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/local_setup.sh\n'}
+[13.535913] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/local_setup.zsh\n'}
+[13.538358] (-) TimerEvent: {}
+[13.545106] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/local_setup.dsv\n'}
+[13.554304] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/package.dsv\n'}
+[13.563366] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/ament_index/resource_index/packages/laser_scan_integrator\n'}
+[13.572967] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/cmake/laser_scan_integratorConfig.cmake\n'}
+[13.582144] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/cmake/laser_scan_integratorConfig-version.cmake\n'}
+[13.591501] (laser_scan_integrator) StdoutLine: {'line': b'-- Symlinking: /home/home/tr_laser_scan_integrator/install/laser_scan_integrator/share/laser_scan_integrator/package.xml\n'}
+[13.602920] (laser_scan_integrator) CommandEnded: {'returncode': 0}
+[13.628868] (laser_scan_integrator) JobEnded: {'identifier': 'laser_scan_integrator', 'rc': 0}
+[13.629466] (-) EventReactorShutdown: {}
