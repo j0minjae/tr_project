@@ -106,31 +106,35 @@ void DrivingMotorsCanOpen::jointTrajectoryCallback(const trajectory_msgs::msg::J
             continue;
         }
 
-        const double velocity = point.velocities[i];
+        const double velocity_rad_s = point.velocities[i]; // rad/s 단위의 목표 속도
 
-        // "wheel_left_joint" 명령을 실제 왼쪽 모터에 매핑
+        // 1. 단위를 rad/s에서 RPM으로 변환합니다.
+        //    (rad/s -> 초당 회전수 -> 분당 회전수) * 기어비
+        const double TWO_PI = 2.0 * M_PI;
+        double target_rpm = (velocity_rad_s / TWO_PI) * 60.0 * gear_ratio_;
+
+        // 2. 변환된 RPM 값을 모터 드라이버에 전달합니다.
         if (joint_name == "wheel_left_joint")
         {
-            // TODO: 실제 하드웨어 구성에 맞게 인덱스를 확인/수정하세요.
-            int driver_idx = 0; // 예: 첫 번째 드라이버
-            int motor_idx = 0;  // 예: 첫 번째 모터 (왼쪽)
+            int driver_idx = 0;
+            int motor_idx = 0;
 
             if (driver_idx < num_driver)
             {
-                drivers[driver_idx]->motor_control_.target_vel[motor_idx] = static_cast<int32_t>(velocity);
+                // 변환된 RPM 값을 정수형으로 캐스팅하여 전달
+                drivers[driver_idx]->motor_control_.target_vel[motor_idx] = static_cast<int32_t>(target_rpm);
                 drivers[driver_idx]->motor_control_.set_vel_pos[motor_idx] = true;
             }
         }
-        // "wheel_right_joint" 명령을 실제 오른쪽 모터에 매핑
         else if (joint_name == "wheel_right_joint")
         {
-            // TODO: 실제 하드웨어 구성에 맞게 인덱스를 확인/수정하세요.
-            int driver_idx = 0; // 예: 첫 번째 드라이버
-            int motor_idx = 1;  // 예: 두 번째 모터 (오른쪽)
+            int driver_idx = 0;
+            int motor_idx = 1;
 
             if (driver_idx < num_driver)
             {
-                drivers[driver_idx]->motor_control_.target_vel[motor_idx] = static_cast<int32_t>(velocity);
+                // 변환된 RPM 값을 정수형으로 캐스팅하여 전달
+                drivers[driver_idx]->motor_control_.target_vel[motor_idx] = static_cast<int32_t>(target_rpm);
                 drivers[driver_idx]->motor_control_.set_vel_pos[motor_idx] = true;
             }
         }

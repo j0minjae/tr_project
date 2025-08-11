@@ -47,9 +47,9 @@ DiffDrive2WKinematics::DiffDrive2WKinematics()
 void DiffDrive2WKinematics::execForwKin(const sensor_msgs::msg::JointState::SharedPtr js, nav_msgs::msg::Odometry& odom)
 {
 	// compute current velocities
-	const double vel_x = 0.5 * (js->velocity[0] - js->velocity[1]) * (m_dDiam * 0.5);
+	const double vel_x = 0.5 * (js->velocity[0] + js->velocity[1]) * (m_dDiam * 0.5);
 
-	const double yaw_rate = -1 * (js->velocity[0] + js->velocity[1]) * (m_dDiam * 0.5) / m_dAxisLength;
+	const double yaw_rate = -(js->velocity[0] - js->velocity[1]) * (m_dDiam * 0.5) / m_dAxisLength;
 
 	if(!m_curr_odom.header.stamp.sec == 0)
 	{
@@ -111,8 +111,8 @@ void DiffDrive2WKinematics::execInvKin(const geometry_msgs::msg::Twist::SharedPt
 	traj.points.clear();
 
 	/* ---------- 역기구학 계산 ---------- */
-	const double w_left  = -(twist->linear.x - 0.5 * twist->angular.z * m_dAxisLength) * 2.0 / m_dDiam;
-	const double w_right = -(twist->linear.x + 0.5 * twist->angular.z * m_dAxisLength) * 2.0 / m_dDiam;
+	const double w_left  = (twist->linear.x - 0.5 * twist->angular.z * m_dAxisLength) * 2.0 / m_dDiam;
+	const double w_right = (twist->linear.x + 0.5 * twist->angular.z * m_dAxisLength) * 2.0 / m_dDiam;
 	//             ↑ 앞의 코드와 부호 동일 (필요 시 - 제거)
 
 	/* ---------- TrajectoryPoint ---------- */
