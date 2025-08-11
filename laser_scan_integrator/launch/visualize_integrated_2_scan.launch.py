@@ -17,28 +17,29 @@ def generate_launch_description():
             'rviz',
             'laser_scan_integrator.rviz')
 
-     #general parameter for the integrated laserscan
-    pointCloudTopic = LaunchConfiguration('integratedTopic', default="scan")
+    #general parameter for the integrated laserscan
+    pointCloudTopic = LaunchConfiguration('integratedTopic', default="scan_integrated")
     pointCloutFrameId = LaunchConfiguration('integratedFrameId', default="base_link")
     
     #parameter for the first laserscan, feel free to duplicate and rename for other laserscans
-    scanTopic1 = LaunchConfiguration('scanTopic1', default="scan_front")
-    laser1XOff = LaunchConfiguration('laser1XOff', default=0.350)
-    laser1YOff = LaunchConfiguration('laser1YOff', default=0.225)
-    laser1Yaw = LaunchConfiguration('laser1Yaw', default=0.785398)  # 45 degrees in radians
+    scanTopic1 = LaunchConfiguration('scanTopic1', default="scan1")
+    laser1XOff = LaunchConfiguration('laser1XOff', default=0.0)
+    laser1YOff = LaunchConfiguration('laser1YOff', default=0.0)
+    laser1Yaw = LaunchConfiguration('laser1Yaw', default=0.0) #0.785398
     show1 = LaunchConfiguration('show1', default=True)
 
     #parameter for the second laserscan, feel free to duplicate and rename for other laserscans
-    scanTopic2 = LaunchConfiguration('scanTopic2', default="scan_rear")
-    laser2XOff = LaunchConfiguration('laser2XOff', default=-0.350)
-    laser2YOff = LaunchConfiguration('laser2YOff', default=-0.225)
-    laser2Yaw = LaunchConfiguration('laser2Yaw', default=3.92699)
+    scanTopic2 = LaunchConfiguration('scanTopic2', default="scan2")
+    laser2XOff = LaunchConfiguration('laser2XOff', default=0.0)
+    laser2YOff = LaunchConfiguration('laser2YOff', default=0.0)
+    laser2Yaw = LaunchConfiguration('laser2Yaw', default=0.0) #3.92699
     show2 = LaunchConfiguration('show2', default=True)
 
-    robotFrontEnd = LaunchConfiguration('robotFrontEnd', default=0.4185)
-    robotRearEnd = LaunchConfiguration('robotRearEnd', default=0.4185)
-    robotRightEnd = LaunchConfiguration('robotRightEnd', default=0.2935)
-    robotLeftEnd = LaunchConfiguration('robotLeftEnd', default=0.2935)
+    #robot end parameters, these are used to calculate the robot's end points defalt = 0.1
+    robotFrontEnd = LaunchConfiguration('robotFrontEnd', default=0.1)
+    robotRearEnd = LaunchConfiguration('robotRearEnd', default=0.1)
+    robotRightEnd = LaunchConfiguration('robotRightEnd', default=0.1)
+    robotLeftEnd = LaunchConfiguration('robotLeftEnd', default=0.1)
 
     return LaunchDescription([
         DeclareLaunchArgument(

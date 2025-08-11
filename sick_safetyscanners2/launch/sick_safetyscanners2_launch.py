@@ -6,7 +6,7 @@ def generate_launch_description():
         Node(
             package="sick_safetyscanners2",
             executable="sick_safetyscanners2_node",
-            name="sick_safetyscanners2_front_node",
+            name="sick_safetyscanners2_node",
             output="screen",
             emulate_tty=True,
             parameters=[
@@ -29,12 +29,12 @@ def generate_launch_description():
                  "use_persistent_config": False,
                  "min_intensities": 0.0}
             ],
-            remappings=[('/scan', '/scan_front')]
+            remappings=[('/scan', '/scan1')]
         ),
         Node(
             package="sick_safetyscanners2",
             executable="sick_safetyscanners2_node",
-            name="sick_safetyscanners2_rear_node",
+            name="sick_safetyscanners2_node",
             output="screen",
             emulate_tty=True,
             parameters=[
@@ -57,6 +57,6 @@ def generate_launch_description():
                  "use_persistent_config": False,
                  "min_intensities": 0.0}
             ],
-            remappings=[('/scan', '/scan_rear')]
+            remappings=[('/scan', '/scan2')]
         )
     ])
