@@ -17,12 +17,12 @@ def generate_launch_description():
     )
 
     # 3. 'use_sim' 값에 따라 다른 파라미터 파일을 조건부로 선택합니다.
-    #    - true: test_setup_sim.yaml
-    #    - false: test_setup.yaml
+    #    - true: kinematics_sim.yaml
+    #    - false: kinematics.yaml
     param_file = launch.substitutions.PythonExpression([
-        '"', os.path.join(pkg_share, 'launch', 'test_setup_sim.yaml'), '" if "',
+        '"', os.path.join(pkg_share, 'launch', 'kinematics_sim.yaml'), '" if "',
         launch.substitutions.LaunchConfiguration('use_sim'), '" == "true" else "',
-        os.path.join(pkg_share, 'launch', 'test_setup.yaml'), '"'
+        os.path.join(pkg_share, 'launch', 'kinematics.yaml'), '"'
     ])
 
     # 4. 노드를 정의하고, 위에서 선택된 파라미터 파일을 전달합니다.
