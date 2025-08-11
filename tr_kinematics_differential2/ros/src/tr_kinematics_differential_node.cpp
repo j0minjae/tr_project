@@ -55,7 +55,7 @@ public:
 	int init() {
 		this->declare_parameter<double>("wheelDiameter", 0.3);
 		this->declare_parameter<double>("wheelSeperation", 0.5);
-		this->declare_parameter<std::string>("odomFrame", "odom");
+		this->declare_parameter<std::string>("odomFrame", "odom1");
 		this->declare_parameter<std::string>("robotBaseFrame", "base_footprint");
 		this->declare_parameter<std::string>("joint_trajectory_topic", "drives/joint_trajectory");
 		this->declare_parameter<std::string>("joint_states_topic", "drives/joint_states");
@@ -67,7 +67,7 @@ public:
 		this->get_parameter("joint_trajectory_topic", joint_trajectory_topic);
 		this->get_parameter("joint_states_topic", joint_states_topic);
 
-		topicPub_Odometry = this->create_publisher<nav_msgs::msg::Odometry>("odom", 1000);
+		topicPub_Odometry = this->create_publisher<nav_msgs::msg::Odometry>("odom1", 1000);
     	topicPub_DriveCommands = this->create_publisher<trajectory_msgs::msg::JointTrajectory>(joint_trajectory_topic, 1000);
 		topicSub_ComVel = this->create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 1, std::bind(&PlatformCtrlNode::receiveCmd, this, _1));
 		topicSub_DriveState = this->create_subscription<sensor_msgs::msg::JointState>(joint_states_topic, 10, std::bind(&PlatformCtrlNode::receiveOdo, this, _1));
@@ -94,7 +94,7 @@ public:
 	void receiveOdo(const sensor_msgs::msg::JointState::SharedPtr js) {
 
 		nav_msgs::msg::Odometry odom;
-		odom.header.frame_id = "odom";
+		odom.header.frame_id = "odom1";
 		odom.child_frame_id = "base_link";
 		kin->execForwKin(js, odom);
 		topicPub_Odometry->publish(odom);
