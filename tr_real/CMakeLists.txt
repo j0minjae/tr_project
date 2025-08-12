@@ -5,6 +5,7 @@ find_package(ament_cmake REQUIRED)
 
 install(DIRECTORY launch
   configs
+  maps
   DESTINATION share/${PROJECT_NAME})
 
 ament_package()

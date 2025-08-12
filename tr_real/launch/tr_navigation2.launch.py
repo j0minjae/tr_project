@@ -12,35 +12,35 @@ from launch_ros.actions import Node, PushRosNamespace
 from launch.conditions import IfCondition
 
 
-MY_KJJ_ENVIRONMENT = 'map2'
+MY_TR_ENVIRONMENT = '307'
 
 def generate_launch_description():
     use_multi_robots = LaunchConfiguration('use_multi_robots', default='False')
-    use_amcl = LaunchConfiguration('use_amcl', default='False')
+    use_amcl = LaunchConfiguration('use_amcl', default='True')
     use_sim_time = LaunchConfiguration('use_sim_time', default='False')
     namespace = LaunchConfiguration('namespace', default='')
     use_namespace = LaunchConfiguration('use_namespace', default='False')
     map_dir = LaunchConfiguration(
         'map',
         default=os.path.join(
-            get_package_share_directory('kjj_real'),
+            get_package_share_directory('tr_real'),
             'maps',
-            MY_KJJ_ENVIRONMENT+'.yaml'))
+            MY_TR_ENVIRONMENT+'.yaml'))
 
-    param_file_name = 'kjj_navigation.yaml'
+    param_file_name = 'tr_navigation.yaml'
     param_dir = LaunchConfiguration(
         'params_file',
         default=os.path.join(
-            get_package_share_directory('kjj_real'),
+            get_package_share_directory('tr_real'),
             'configs/',
             param_file_name))
 
-    nav2_launch_file_dir = os.path.join(get_package_share_directory('kjj_nav2_bringup'), 'launch')
+    nav2_launch_file_dir = os.path.join(get_package_share_directory('tr_nav2_bringup'), 'launch')
     merge_launch_file_dir = os.path.join(get_package_share_directory('laser_scan_integrator'), 'launch')
     
     return LaunchDescription([
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([nav2_launch_file_dir, '/localization_kjj.launch.py']), 
+            PythonLaunchDescriptionSource([nav2_launch_file_dir, '/localization_tr.launch.py']), 
             condition=IfCondition(PythonExpression(['not ', use_amcl])),
             launch_arguments={
                 'map': map_dir,
@@ -61,7 +61,7 @@ def generate_launch_description():
         ),
 
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([nav2_launch_file_dir, '/navigation_kjj.launch.py']),
+            PythonLaunchDescriptionSource([nav2_launch_file_dir, '/navigation_tr.launch.py']),
             launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'params_file': param_dir}.items()),

@@ -1,1 +1,1 @@
-sudo apt install xterm ros-humble-nav2*
+sudo apt install ros-$ROS_DISTRO-imu-tools
