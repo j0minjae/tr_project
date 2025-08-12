@@ -43,7 +43,7 @@ def generate_launch_description():
 
     remappings = [('/tf', 'tf'),
                   ('/tf_static', 'tf_static'),
-                  ('/cmd_vel', '/cmd_vel_raw')]
+                  ('/cmd_vel', '/cmd_vel_nav')]
 
     param_substitutions = {
         'use_sim_time': use_sim_time,

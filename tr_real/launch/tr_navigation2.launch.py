@@ -12,11 +12,11 @@ from launch_ros.actions import Node, PushRosNamespace
 from launch.conditions import IfCondition
 
 
-MY_TR_ENVIRONMENT = '307'
+MY_TR_ENVIRONMENT = 'corridor'
 
 def generate_launch_description():
     use_multi_robots = LaunchConfiguration('use_multi_robots', default='False')
-    use_amcl = LaunchConfiguration('use_amcl', default='True')
+    use_amcl = LaunchConfiguration('use_amcl', default='False')
     use_sim_time = LaunchConfiguration('use_sim_time', default='False')
     namespace = LaunchConfiguration('namespace', default='')
     use_namespace = LaunchConfiguration('use_namespace', default='False')

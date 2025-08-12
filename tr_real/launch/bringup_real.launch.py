@@ -12,6 +12,7 @@ def generate_launch_description():
     tr_description_dir = get_package_share_directory('tr_description')
     tr_driver_dir = get_package_share_directory('tr_driver')
     tr_kinematics_dir = get_package_share_directory('tr_kinematics_differential2')
+    tr_mux_dir = get_package_share_directory('tr_twist_mux')
     sick_safetyscanners_dir = get_package_share_directory('sick_safetyscanners2')
     teleop_twist_joy_dir = get_package_share_directory('teleop_twist_joy')
     ekf_config_path = os.path.join(tr_real_dir, 'configs', 'robot_localization_ekf.yaml')
@@ -46,7 +47,16 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(teleop_twist_joy_dir, 'launch', 'teleop-launch.py')
         ),
-        launch_arguments={'joy_config': 'ps5'}.items()
+        launch_arguments={
+            'joy_config': 'ps5',
+            'joy_vel': 'cmd_vel_joy'
+            }.items()
+    )
+
+    launch_twist_mux = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(tr_mux_dir, 'launch', 'twist_mux_launch.py')
+        )
     )
 
     node_imu = Node(package='trdriver_imu', executable="imu_node")
@@ -69,5 +79,6 @@ def generate_launch_description():
     ld.add_action(node_ekf)
     ld.add_action(launch_tr_description)
     ld.add_action(launch_teleop_joy)
+    ld.add_action(launch_twist_mux)
 
     return ld

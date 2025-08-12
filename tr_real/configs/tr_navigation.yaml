@@ -84,7 +84,7 @@ amcl:
     do_beamskip: false
     global_frame_id: "map"
     lambda_short: 0.1
-    set_initial_pose: true
+    set_initial_pose: True #2D_estimate_option
     laser_likelihood_max_dist: 2.0
     laser_max_range: -1.0
     laser_min_range: -1.0
@@ -338,7 +338,7 @@ global_costmap:
 map_server:
   ros__parameters:
     use_sim_time: True
-    yaml_filename: "neo_track1.yaml"
+    yaml_filename: "corridor.yaml"
 
 map_saver:
   ros__parameters:
@@ -385,7 +385,7 @@ waypoint_follower:
     loop_rate: 20
     stop_on_failure: false
     waypoint_task_executor_plugin: "wait_at_waypoint"   
-    wait_at_waypoint:
+    wait_at_waypoint0:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
       enabled: True
       waypoint_pause_duration: 200
