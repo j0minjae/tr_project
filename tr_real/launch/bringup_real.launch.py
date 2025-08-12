@@ -3,15 +3,18 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch_ros.actions import Node
 
 def generate_launch_description():
 
     # 각 패키지의 공유 디렉토리 경로를 찾습니다.
+    tr_real_dir = get_package_share_directory('tr_real')
     tr_description_dir = get_package_share_directory('tr_description')
     tr_driver_dir = get_package_share_directory('tr_driver')
     tr_kinematics_dir = get_package_share_directory('tr_kinematics_differential2')
     sick_safetyscanners_dir = get_package_share_directory('sick_safetyscanners2')
     teleop_twist_joy_dir = get_package_share_directory('teleop_twist_joy')
+    ekf_config_path = os.path.join(tr_real_dir, 'configs', 'robot_localization_ekf.yaml')
 
     # IncludeLaunchDescription을 사용하여 다른 런치 파일을 포함합니다.
     launch_tr_description = IncludeLaunchDescription(
@@ -46,13 +49,25 @@ def generate_launch_description():
         launch_arguments={'joy_config': 'ps5'}.items()
     )
 
+    node_imu = Node(package='trdriver_imu', executable="imu_node")
+
+    node_ekf = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_localization',
+        parameters=[ekf_config_path],
+        remappings=[('odometry/filtered', 'odom')]
+    )
+
     # LaunchDescription을 생성하고 action들을 추가합니다.
     ld = LaunchDescription()
 
-    ld.add_action(launch_tr_description)
     ld.add_action(launch_tr_driver)
     ld.add_action(launch_tr_kinematics)
+    ld.add_action(node_imu)
     ld.add_action(launch_sick_lidar)
+    ld.add_action(node_ekf)
+    ld.add_action(launch_tr_description)
     ld.add_action(launch_teleop_joy)
 
     return ld

@@ -5,12 +5,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Status1
-        - /FrontScan1
         - /FrontScan1/Topic1
-        - /RearScan1
-        - /IntegratedScan1
-      Splitter Ratio: 0.5
+        - /Imu1
+      Splitter Ratio: 0.6235294342041016
     Tree Height: 719
   - Class: rviz_common/Selection
     Name: Selection
@@ -153,6 +150,34 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Acceleration properties:
+        Acc. vector alpha: 1
+        Acc. vector color: 255; 0; 0
+        Acc. vector scale: 1
+        Derotate acceleration: true
+        Enable acceleration: false
+      Axes properties:
+        Axes scale: 0.10000000149011612
+        Enable axes: true
+      Box properties:
+        Box alpha: 1
+        Box color: 255; 0; 0
+        Enable box: false
+        x_scale: 1
+        y_scale: 1
+        z_scale: 1
+      Class: rviz_imu_plugin/Imu
+      Enabled: true
+      Name: Imu
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /raw_imu
+      Value: true
+      fixed_frame_orientation: true
     - Class: rviz_default_plugins/TF
       Enabled: true
       Frame Timeout: 15
@@ -161,6 +186,8 @@ Visualization Manager:
         base_footprint:
           Value: true
         base_link:
+          Value: true
+        imu_link:
           Value: true
         odom:
           Value: true
@@ -177,6 +204,8 @@ Visualization Manager:
         odom:
           base_footprint:
             base_link:
+              imu_link:
+                {}
               scan1:
                 {}
               scan2:
@@ -229,25 +258,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 7.9267120361328125
+      Distance: 2.682753562927246
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.9174948334693909
-        Y: 0.05701977014541626
-        Z: 0.626646101474762
+        X: 0.07736440747976303
+        Y: 0.0297684445977211
+        Z: 0.4081447720527649
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5147963762283325
+      Pitch: 0.6047977209091187
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.940414547920227
+      Yaw: 1.1954014301300049
     Saved: ~
 Window Geometry:
   Displays:

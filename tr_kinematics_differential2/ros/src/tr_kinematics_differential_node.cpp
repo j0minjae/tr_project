@@ -67,7 +67,7 @@ public:
 		this->get_parameter("joint_trajectory_topic", joint_trajectory_topic);
 		this->get_parameter("joint_states_topic", joint_states_topic);
 
-		topicPub_Odometry = this->create_publisher<nav_msgs::msg::Odometry>("odom", 1000);
+		topicPub_Odometry = this->create_publisher<nav_msgs::msg::Odometry>("odom1", 1000);
     	topicPub_DriveCommands = this->create_publisher<trajectory_msgs::msg::JointTrajectory>(joint_trajectory_topic, 1000);
 		topicSub_ComVel = this->create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 1, std::bind(&PlatformCtrlNode::receiveCmd, this, _1));
 		topicSub_DriveState = this->create_subscription<sensor_msgs::msg::JointState>(joint_states_topic, 10, std::bind(&PlatformCtrlNode::receiveOdo, this, _1));
@@ -94,8 +94,8 @@ public:
 	void receiveOdo(const sensor_msgs::msg::JointState::SharedPtr js) {
 
 		nav_msgs::msg::Odometry odom;
-		odom.header.frame_id = "odom";
-		odom.child_frame_id = "base_footprint";
+		odom.header.frame_id = odomFrame;
+		odom.child_frame_id = robotBaseFrame;
 		kin->execForwKin(js, odom);
 		topicPub_Odometry->publish(odom);
 
