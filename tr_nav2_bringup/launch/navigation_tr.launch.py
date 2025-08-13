@@ -24,6 +24,9 @@ from launch_ros.actions import Node
 from launch_ros.actions import LoadComposableNodes
 from launch_ros.descriptions import ComposableNode
 from nav2_common.launch import RewrittenYaml
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+
 
 def generate_launch_description():
     # Get the launch directory
@@ -34,6 +37,8 @@ def generate_launch_description():
     autostart = LaunchConfiguration('autostart')
     params_file = LaunchConfiguration('params_file')
     use_multi_robots = LaunchConfiguration('use_multi_robots')
+    use_rviz = LaunchConfiguration('use_rviz')    
+
 
     lifecycle_nodes = ['controller_server',
                        'planner_server',
@@ -77,6 +82,16 @@ def generate_launch_description():
     declare_use_multi_robots_cmd =  DeclareLaunchArgument(
         'use_multi_robots', default_value='False',
         description='A flag to remove the remappings')
+    
+    # launch_rviz = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         os.path.join(bringup_dir, 'launch', 'rviz_launch.py')
+    #     ),
+    #     condition = IfCondition(use_rviz),
+    #     launch_arguments={
+    #         'use_sim_time': use_sim_time,
+    #         'namespace': namespace}.items(),
+    # )
 
     load_nodes = GroupAction(
         condition=IfCondition(PythonExpression(['not ', use_multi_robots])),
@@ -123,6 +138,16 @@ def generate_launch_description():
                 parameters=[{'use_sim_time': use_sim_time},
                             {'autostart': autostart},
                             {'node_names': lifecycle_nodes}]),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    os.path.join(bringup_dir, 'launch', 'rviz_launch.py')
+                ),
+                condition = IfCondition(use_rviz),
+                launch_arguments={
+                    'use_sim_time': use_sim_time,
+                    'namespace': namespace
+                }.items(),
+            ),
         ]
     )
 
@@ -159,6 +184,18 @@ def generate_launch_description():
                 output='screen',
                 parameters=[configured_params]),
             Node(
+                package='nav2_velocity_smoother',
+                executable='velocity_smoother',
+                name='velocity_smoother',
+                output='screen',
+                # respawn=use_respawn,
+                respawn_delay=2.0,
+                parameters=[configured_params],
+                # arguments=['--ros-args', '--log-level', log_level],
+                remappings=remappings
+                + [('cmd_vel', 'cmd_vel_nav')],
+            ),
+            Node(
                 package='nav2_lifecycle_manager',
                 executable='lifecycle_manager',
                 name='lifecycle_manager_navigation',
@@ -166,6 +203,16 @@ def generate_launch_description():
                 parameters=[{'use_sim_time': use_sim_time},
                             {'autostart': autostart},
                             {'node_names': lifecycle_nodes}]),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    os.path.join(bringup_dir, 'launch', 'rviz_launch.py')
+                ),
+                condition = IfCondition(use_rviz),
+                launch_arguments={
+                    'use_sim_time': use_sim_time,
+                    'namespace': namespace
+                }.items(),
+            ),
         ]
     )
 

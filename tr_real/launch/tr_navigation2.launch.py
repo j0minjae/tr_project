@@ -20,6 +20,8 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='False')
     namespace = LaunchConfiguration('namespace', default='')
     use_namespace = LaunchConfiguration('use_namespace', default='False')
+    use_rviz = LaunchConfiguration('use_rviz', default='True')
+
     map_dir = LaunchConfiguration(
         'map',
         default=os.path.join(
@@ -64,7 +66,8 @@ def generate_launch_description():
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/navigation_tr.launch.py']),
             launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
-                              'params_file': param_dir}.items()),
+                              'params_file': param_dir,
+                              'use_rviz': use_rviz}.items()),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([merge_launch_file_dir, '/integrate_2_scan.launch.py']),
