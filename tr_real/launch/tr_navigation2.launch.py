@@ -4,30 +4,37 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.actions import IncludeLaunchDescription, GroupAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
-from launch_ros.actions import Node, PushRosNamespace
+from launch_ros.actions import Node
 from launch.conditions import IfCondition
 
-
-MY_TR_ENVIRONMENT = 'corridor'
-
 def generate_launch_description():
+    declare_map_name_arg = DeclareLaunchArgument(
+        'map_name',
+        default_value='corridor',
+        description='Name of the map file in tr_real/maps directory (without .yaml extension)'
+    )
+
+    map_name = LaunchConfiguration('map_name')
+
+    map_dir = [
+        os.path.join(
+            get_package_share_directory('tr_real'),
+            'maps',
+            ''
+        ),
+        map_name,
+        '.yaml'
+    ]
+
     use_multi_robots = LaunchConfiguration('use_multi_robots', default='False')
-    use_amcl = LaunchConfiguration('use_amcl', default='False')
+    use_amcl = LaunchConfiguration('use_amcl', default='True')
     use_sim_time = LaunchConfiguration('use_sim_time', default='False')
     namespace = LaunchConfiguration('namespace', default='')
     use_namespace = LaunchConfiguration('use_namespace', default='False')
     use_rviz = LaunchConfiguration('use_rviz', default='True')
-
-    map_dir = LaunchConfiguration(
-        'map',
-        default=os.path.join(
-            get_package_share_directory('tr_real'),
-            'maps',
-            MY_TR_ENVIRONMENT+'.yaml'))
 
     param_file_name = 'tr_navigation.yaml'
     param_dir = LaunchConfiguration(
@@ -41,11 +48,14 @@ def generate_launch_description():
     merge_launch_file_dir = os.path.join(get_package_share_directory('laser_scan_integrator'), 'launch')
     
     return LaunchDescription([
+        # 위에서 선언한 'map_name' 인자를 런치 설명에 추가합니다.
+        declare_map_name_arg,
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/localization_tr.launch.py']), 
             condition=IfCondition(PythonExpression(['not ', use_amcl])),
             launch_arguments={
-                'map': map_dir,
+                'map': map_dir, # 동적으로 생성된 맵 경로를 전달합니다.
                 'use_sim_time': use_sim_time,
                 'use_multi_robots': use_multi_robots,
                 'params_file': param_dir,
@@ -55,21 +65,19 @@ def generate_launch_description():
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/localization_amcl.launch.py']),
             condition=IfCondition(use_amcl),
             launch_arguments={
-                'map': map_dir,
+                'map': map_dir, # 동적으로 생성된 맵 경로를 전달합니다.
                 'use_sim_time': use_sim_time,
                 'use_multi_robots': use_multi_robots,
                 'params_file': param_dir,
                 'namespace': namespace}.items(),
         ),
-
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/navigation_tr.launch.py']),
             launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'params_file': param_dir,
                               'use_rviz': use_rviz}.items()),
-
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([merge_launch_file_dir, '/integrate_2_scan.launch.py']),
-            ),
-        ])
+        ),
+    ])

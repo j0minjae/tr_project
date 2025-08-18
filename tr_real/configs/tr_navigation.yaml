@@ -1,77 +1,6 @@
-tr_localization2_node:
-  ros__parameters:
-    base_frame: "base_footprint"
-    odom_frame: "odom"
-    # exponential low pass gain for localization update (0 to 1)
-    #   (higher gain means odometry is less used / relied on)
-    update_gain: 0.5
-    # time based confidence gain when in 2D / 1D mode
-    confidence_gain: 0.01
-    # how many particles (samples) to spread (per update)
-    sample_rate: 10
-    # localization update rate [ms]
-    loc_update_time: 100
-    # map tile update rate [1/s]
-    map_update_rate: 0.5
-    # map tile size in pixels
-    map_size: 1000
-    # how often to downscale (half) the original map
-    map_downscale: 0
-    # how many 3x3 gaussian smoothing iterations are applied to the map
-    num_smooth: 5
-    # minimum score for valid localization (otherwise 0D mode)
-    #    higher values make it go into 0D mode earlier
-    min_score: 0.2
-    # odometry error in x and y [m/m] [1]
-    #    how fast to increase particle spread when in 1D / 0D mode
-    odometry_std_xy: 0.01
-    # odometry error in yaw angle [rad/rad] [1]
-    #    how fast to increase particle spread when in 0D mode
-    odometry_std_yaw: 0.01
-    # minimum particle spread in x and y [m]
-    min_sample_std_xy: 0.025
-    # minimum particle spread in yaw angle [rad]
-    min_sample_std_yaw: 0.025
-    # initial/maximum particle spread in x and y [m]
-    max_sample_std_xy: 0.5
-    # initial/maximum particle spread in yaw angle [rad]
-    max_sample_std_yaw: 0.5
-    # threshold for 1D / 2D decision making (minimum average second order gradient)
-    #   if worst gradient direction is below this value we go into 1D mode
-    #   if both gradient directions are below we may go into 0D mode, depending on disable_threshold
-    #   higher values will make it go into 1D / 0D mode earlier
-    constrain_threshold: 0.1
-    # threshold for 1D / 2D decision making (with or without orientation)
-    #   higher values will make it go into 1D mode earlier
-    constrain_threshold_yaw: 0.2
-    # minimum number of points per update
-    min_points: 20
-    # solver update gain, lower gain = more stability / slower convergence
-    solver_gain: 0.1
-    # solver update damping, higher damping = more stability / slower convergence
-    solver_damping: 1000.0
-    # number of gauss-newton iterations per sample per scan
-    solver_iterations: 20
-    # maximum wait for getting transforms [s]
-    transform_timeout: 0.2
-    # if to broadcast map frame
-    broadcast_tf: true
-    # Scan topic
-    scan_topic: /scan_integrated
-    # Initial Pose topic
-    initialpose: initialpose
-    # Map Tile topic
-    map_tile: map_tile
-    # Map Pose topic
-    map_pose: map_pose
-    # particle_cloud topic
-    particle_cloud: particlecloud
-    # amcl_pose topic
-    amcl_pose: amcl_pose
-    
 amcl:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     alpha1: 0.1
     # alpha2: 1.0
     alpha3: 0.1
@@ -98,7 +27,7 @@ amcl:
     recovery_alpha_fast: 0.0
     recovery_alpha_slow: 0.0
     resample_interval: 2
-    robot_model_type: "omnidirectional"
+    robot_model_type: "nav2_amcl::DifferentialMotionModel"
     save_pose_rate: 0.5
     sigma_hit: 0.2
     tf_broadcast: true
@@ -113,15 +42,15 @@ amcl:
 
 amcl_map_client:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
 
 amcl_rclcpp_node:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
 
 bt_navigator:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     global_frame: map
     robot_base_frame: base_link
     odom_topic: /odom
@@ -176,11 +105,11 @@ bt_navigator:
 
 bt_navigator_navigate_through_poses_rclcpp_node:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
 
 bt_navigator_navigate_to_pose_rclcpp_node:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
 
 controller_server:
   ros__parameters:
@@ -194,45 +123,20 @@ controller_server:
       movement_time_allowance: 10.0
     general_goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.02
-      yaw_goal_tolerance: 0.02
+      xy_goal_tolerance: 0.01
+      yaw_goal_tolerance: 0.01
       stateful: True
-    # FollowPath 컨트롤러의 플러그인 타입과 파라미터를 여기서 직접 정의합니다.
     FollowPath:
       plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-      # --- 직선 주행 시나리오 최적화 파라미터 ---
-
       desired_linear_vel: 0.8
-      # 목표 속도를 유지합니다. 필요에 따라 조절할 수 있습니다.
-
-      lookahead_dist: 0.3
-      # '당근'의 거리를 늘려 더 부드럽고 안정적인 직선 주행을 유도합니다.
-      # 로봇이 멀리 내다보게 하여, 사소한 경로 이탈에 민감하게 반응하지 않도록 합니다.
-
+      lookahead_dist: 0.5
       min_lookahead_dist: 0.3
-      max_lookahead_dist: 0.5
-      # lookahead 거리를 고정하여 항상 일관된 주행 패턴을 유지하도록 합니다.
-      # 동적인 상황이 없으므로 가변적으로 둘 필요가 없습니다.
-
+      max_lookahead_dist: 0.7
       use_regulated_linear_velocity_scaling: false
-      # '커브길 감속' 기능을 비활성화합니다. 웨이포인트에서 방향을 틀 때
-      # 불필요하게 감속하는 것을 방지하여 일정한 속도를 유지합니다.
-
       use_cost_regulated_linear_velocity_scaling: false
-      # '장애물 근접 시 감속' 기능을 비활성화합니다.
-      # 어차피 장애물 회피를 하지 않으므로 필요 없는 기능입니다.
-
       use_rotate_to_heading: true
-      # '제자리 회전 후 출발' 기능을 활성화합니다. 웨이포인트에 도착하면
-      # 다음 웨이포인트 방향으로 먼저 회전한 뒤 출발하여, 더 깔끔하고 예측 가능한 움직임을 만듭니다.
-
       rotate_to_heading_angular_vel: 0.8
-      # 제자리 회전 시의 속도입니다.
-
       allow_reversing: false
-      # 후진을 허용하지 않습니다.
-
-      # --- 기본 유지 파라미터 ---
       max_linear_accel: 0.25
       max_linear_decel: 0.25
       min_approach_linear_velocity: 0.1
@@ -248,7 +152,7 @@ local_costmap:
       robot_base_frame: base_footprint
       footprint_padding: 0.
       footprint:  "[ [0.45,0.4],[-0.45,0.4],[-0.45,-0.4],[0.45,-0.4] ]"
-      use_sim_time: True
+      use_sim_time: False
       rolling_window: true
       width: 5
       height: 5
@@ -262,15 +166,9 @@ local_costmap:
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
-        # observation_sources: scan scan1
+        # observation_sources: scan
         scan:
-          topic: /scan1
-          max_obstacle_height: 2.0
-          clearing: True
-          marking: True
-          data_type: "LaserScan"
-        scan1:
-          topic: /scan2
+          topic: /scan_integrated
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -286,31 +184,25 @@ global_costmap:
       robot_base_frame: base_footprint
       footprint_padding: 0.
       footprint:  "[ [0.45,0.4],[-0.45,0.4],[-0.45,-0.4],[0.45,-0.4] ]"
-      use_sim_time: True
+      use_sim_time: False
       # robot_radius: 0.22
       resolution: 0.05
       track_unknown_space: true
       # plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       plugins: ["static_layer"]
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: True      
       # obstacle_layer:
       #   plugin: "nav2_costmap_2d::ObstacleLayer"
       #   enabled: True
-      #   observation_sources: scan scan1
+      #   observation_sources: scan
       #   scan:
-      #     topic: /scan1
+      #     topic: /scan_integrated
       #     max_obstacle_height: 2.0
       #     clearing: True
       #     marking: True
       #     data_type: "LaserScan"
-      #   scan1:
-      #     topic: /scan2
-      #     max_obstacle_height: 2.0
-      #     clearing: True
-      #     marking: True
-      #     data_type: "LaserScan"
-      static_layer:
-        plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True
       # inflation_layer:
       #   plugin: "nav2_costmap_2d::InflationLayer"
       #   cost_scaling_factor: 4.0
@@ -319,12 +211,12 @@ global_costmap:
 
 map_server:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     yaml_filename: "neo_track1.yaml"
 
 map_saver:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     save_map_timeout: 5000
     free_thresh_default: 0.25
     occupied_thresh_default: 0.65
@@ -333,7 +225,7 @@ map_saver:
 planner_server:
   ros__parameters:
     expected_planner_frequency: 5.0
-    use_sim_time: True
+    use_sim_time: False
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
@@ -356,7 +248,7 @@ behavior_server:
     global_frame: odom
     robot_base_frame: base_link
     transform_timeout: 0.1
-    use_sim_time: true
+    use_sim_time: False
     simulate_ahead_time: 2.0
     max_rotational_vel: 0.5
     min_rotational_vel: 0.3
@@ -374,30 +266,13 @@ waypoint_follower:
 
 velocity_smoother:
   ros__parameters:
-    # 스무딩 주기 (Hz)
     smoothing_frequency: 20.0
-
-    # 피드백 방식: OPEN_LOOP 또는 CLOSED_LOOP
-    # OPEN_LOOP가 더 간단하고 대부분의 경우 충분합니다.
     feedback: "CLOSED_LOOP"
-
-    # 로봇의 물리적 한계 설정
-    # 최고 속도 (단위: m/s, rad/s) - 양수 값
-    max_velocity: [0.6, 0.0, 1.0]
-    # 최저 속도 (후진 속도) - 음수 값
+    max_velocity: [0.3, 0.0, 1.0]
     min_velocity: [-0.3, 0.0, -1.0]
-
-    # 최대 가속도 (단위: m/s^2, rad/s^2) - 양수 값
-    # 출발 시 미끄러짐을 방지하기 위해 이 값을 낮추는 것이 중요합니다.
     max_accel: [0.15, 0.0, 0.4]
-    # 최대 감속도 - 음수 값이어야 합니다.
     max_decel: [-0.6, 0.0, -0.8]
-
-    # Odometry 기반 제어 (CLOSED_LOOP 사용 시)
     odom_topic: "odom"
     odom_duration: 0.1
-
-    # 이 값 이하의 속도는 0으로 처리
     deadband_velocity: [0.02, 0.0, 0.08]
-    # 이 시간(초) 동안 새 명령이 없으면 정지
     velocity_timeout: 1.0

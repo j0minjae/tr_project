@@ -30,11 +30,12 @@ def generate_launch_description():
     namespace = LaunchConfiguration('namespace')
     autostart = LaunchConfiguration('autostart', default='true')
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')    
-    lifecycle_nodes = ['map_server','filter_mask_server', 'costmap_filter_info_server', 'amcl']
+    lifecycle_nodes = ['map_server', 'amcl']
     use_multi_robots = LaunchConfiguration('use_multi_robots', default='False')
 
     remappings = [('/tf', 'tf'),
-                  ('/tf_static', 'tf_static')]
+                  ('/tf_static', 'tf_static'),
+                  ('/cmd_vel', '/cmd_vel_raw')]
 
     param_substitutions = {
         'use_sim_time' : use_sim_time,
@@ -56,20 +57,20 @@ def generate_launch_description():
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
-        Node(
-            package='nav2_map_server',
-            executable='map_server',
-            name='filter_mask_server',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings),
-        Node(
-            package='nav2_map_server',
-            executable='costmap_filter_info_server',
-            name='costmap_filter_info_server',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings),
+        # Node(
+        #     package='nav2_map_server',
+        #     executable='map_server',
+        #     name='filter_mask_server',
+        #     output='screen',
+        #     parameters=[configured_params],
+        #     remappings=remappings),
+        # Node(
+        #     package='nav2_map_server',
+        #     executable='costmap_filter_info_server',
+        #     name='costmap_filter_info_server',
+        #     output='screen',
+        #     parameters=[configured_params],
+        #     remappings=remappings),
         Node(
             package='nav2_amcl',
             executable='amcl',

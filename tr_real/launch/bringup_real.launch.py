@@ -60,6 +60,7 @@ def generate_launch_description():
     )
 
     node_imu = Node(package='trdriver_imu', executable="imu_node")
+    # node_pgv = Node(package='trdriver_pgv', executable="pgv_node")
 
     node_ekf = Node(
         package='robot_localization',
@@ -75,6 +76,7 @@ def generate_launch_description():
     ld.add_action(launch_tr_driver)
     ld.add_action(launch_tr_kinematics)
     ld.add_action(node_imu)
+    # ld.add_action(node_pgv)
     ld.add_action(launch_sick_lidar)
     ld.add_action(node_ekf)
     ld.add_action(launch_tr_description)
