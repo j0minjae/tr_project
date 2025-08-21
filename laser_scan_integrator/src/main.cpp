@@ -176,8 +176,8 @@ class scanMerger : public rclcpp::Node
         // 통합 각도 해상도(두 라이다가 동일하다 했으니 그대로 사용)
         const float inc = laser1_->angle_increment;
         // min/max를 격자에 스냅(선택사항이지만 깔끔)
-        const float snapped_min = std::floor(min_theta / inc) * inc;
-        const float snapped_max = std::ceil (max_theta / inc) * inc;
+        const float snapped_min = -M_PI;
+        const float snapped_max = M_PI;
         // bin 개수 산출
         int n_bins = static_cast<int>(std::floor((snapped_max - snapped_min) / inc)) + 1;
         if (n_bins <= 0 || scan_data.empty()) {

@@ -104,7 +104,7 @@ def generate_launch_description():
 
     ld = LaunchDescription()
 
-    ld.add_action(integrate_lidar)
+    # ld.add_action(integrate_lidar)
     ld.add_action(declare_autostart_cmd)
     ld.add_action(declare_use_lifecycle_manager)
     ld.add_action(declare_use_sim_time_argument)

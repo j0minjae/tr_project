@@ -15,6 +15,6 @@ int32 color_lane_count      # 감지된 컬러 라인 수
 int32 no_color_lane         # 컬러 라인 감지 여부 플래그
 int32 no_pos                # 위치 감지 여부 플래그
 
-# 태그(마커) 관련 정보
+# 태그(마커) 관련 정보      ccccccccccccccccccccccccccc
 int32 tag_detected          # 태그 감지 여부 플래그
 int32 tag_id                # 감지된 태그의 ID

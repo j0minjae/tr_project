@@ -13,7 +13,7 @@ from launch.conditions import IfCondition
 def generate_launch_description():
     declare_map_name_arg = DeclareLaunchArgument(
         'map_name',
-        default_value='corridor',
+        default_value='factory_h',
         description='Name of the map file in tr_real/maps directory (without .yaml extension)'
     )
 

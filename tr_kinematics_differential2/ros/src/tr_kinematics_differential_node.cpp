@@ -121,7 +121,7 @@ public:
 			odom_trans.transform.translation.y = odom.pose.pose.position.y;
 			odom_trans.transform.translation.z = odom.pose.pose.position.z;
 			odom_trans.transform.rotation = odom.pose.pose.orientation;
-			odom_broadcaster->sendTransform(odom_trans);
+			// odom_broadcaster->sendTransform(odom_trans);
 		}
 	}
 

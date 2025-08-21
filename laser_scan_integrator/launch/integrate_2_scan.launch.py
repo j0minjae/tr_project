@@ -12,7 +12,7 @@ from launch.actions import DeclareLaunchArgument
 def generate_launch_description():
     #general parameter for the integrated laserscan
     pointCloudTopic = LaunchConfiguration('integratedTopic', default="scan_integrated")
-    pointCloutFrameId = LaunchConfiguration('integratedFrameId', default="base_link")
+    pointCloutFrameId = LaunchConfiguration('integratedFrameId', default="base_footprint")
     
     #parameter for the first laserscan, feel free to duplicate and rename for other laserscans
     scanTopic1 = LaunchConfiguration('scanTopic1', default="scan1")
