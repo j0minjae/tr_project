@@ -59,8 +59,8 @@ def generate_launch_description():
         )
     )
 
-    node_imu = Node(package='trdriver_imu', executable="imu_node")
-    node_pgv = Node(package='trdriver_pgv', executable="pgv_node")
+    node_imu = Node(package='tr_driver_imu', executable="imu_node")
+    node_pgv = Node(package='tr_driver_pgv', executable="pgv_node")
 
     node_ekf = Node(
         package='robot_localization',

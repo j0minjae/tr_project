@@ -128,7 +128,7 @@ def generate_launch_description():
                 output='screen',
                 parameters=[configured_params],
                 remappings=remappings),
-            
+
             # --- [수정 2] 여기에 Speed Filter 관련 노드 2개를 추가합니다. ---
             Node(
               package='nav2_map_server',
@@ -136,7 +136,7 @@ def generate_launch_description():
               name='map_server_speed_mask',
               output='screen',
               parameters=[configured_params],
-              remappings=remappings),         
+              remappings=remappings),
           Node(
               package='nav2_map_server',
               executable='costmap_filter_info_server',

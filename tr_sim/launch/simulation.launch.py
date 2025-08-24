@@ -1,121 +1,185 @@
 # Neobotix GmbH
 # Author: Pradheep Padmanabhan
+# Modified for use_sim_time fix
+
 import launch
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription, LaunchContext
 from launch.actions import (
     DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction,
-    ExecuteProcess, RegisterEventHandler
+    RegisterEventHandler
 )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-from launch.event_handlers import OnShutdown
-from launch_ros.substitutions import FindPackageShare
+from launch.event_handlers import OnProcessExit
 import os
 import xacro
 
-
-def launch_setup(context: LaunchContext, my_neo_env_arg):
-    launch_actions = []
-
-    my_neo_environment = my_neo_env_arg.perform(context)
-    use_sim_time = True
+def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
+    """
+    This function is executed by OpaqueFunction and sets up all nodes and actions.
+    """
+    # Get the actual values from the launch arguments
+    world_name = world_name_arg.perform(context)
+    
+    # Package paths
+    tr_sim_share = get_package_share_directory('tr_sim')
+    tr_description_share = get_package_share_directory('tr_description')
+    gazebo_ros_share = get_package_share_directory('gazebo_ros')
+    ekf_config_path = os.path.join(get_package_share_directory('tr_sim'), 'configs', 'robot_localization_ekf.yaml')
 
     # ---------- Gazebo world ----------------------------------------------
-    if my_neo_environment in ("neo_workshop", "neo_track1"):
-        world_path = os.path.join(
-            get_package_share_directory('tr_sim'),
-            'worlds',
-            f'{my_neo_environment}.world')
+    if world_name in ("neo_workshop", "neo_track1", "warehouse"):
+        world_path = os.path.join(tr_sim_share, 'worlds', f'{world_name}.world')
     else:
-        world_path = my_neo_environment
+        world_path = world_name
 
+    # Launch Gazebo server and client
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(
-                get_package_share_directory('gazebo_ros'),
-                'launch',
-                'gazebo.launch.py')),
+            os.path.join(gazebo_ros_share, 'launch', 'gazebo.launch.py')
+        ),
         launch_arguments={
-            'world':   world_path,
+            'world': world_path,
             'verbose': 'true',
-        }.items())
+            'use_sim_time': use_sim_time_arg # Gazebo에 sim_time 사용 전달
+        }.items()
+    )
 
     # ---------- Robot description / spawn ---------------------------------
-    robot_description_xacro = os.path.join(
-        get_package_share_directory('tr_sim'),
-        'robots',
-        'amr.urdf.xacro')
+    robot_description_xacro = os.path.join(tr_description_share, 'urdf', 'amr_sim.urdf.xacro')
+    controller_yaml_path = os.path.join(tr_sim_share, 'configs', 'amr_controller.yaml')
+    lidar_macro_path = os.path.join(tr_sim_share, 'components', 'common_macro', 'gazebo_lidar_macro.xacro')
 
-    robot_description = xacro.process_file(
+    robot_description_content = xacro.process_file(
         robot_description_xacro,
-        mappings={'use_gazebo': 'true'}).toxml()
+        mappings={'use_gazebo': 'true', 'controller_yaml_path': controller_yaml_path, 'lidar_macro_path': lidar_macro_path}
+    ).toxml()
 
-    spawn_entity = Node(
+    # Robot State Publisher Node
+    robot_state_publisher_node = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='screen',
+        parameters=[{
+            'use_sim_time': use_sim_time_arg, # sim_time 파라미터 적용
+            'robot_description': robot_description_content
+        }]
+    )
+
+    # Spawn Entity Node
+    spawn_entity_node = Node(
         package='gazebo_ros',
         executable='spawn_entity.py',
         arguments=['-entity', 'amr', '-topic', '/robot_description'],
-        output='screen')
+        output='screen'
+    )
 
-    state_pub = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        parameters=[{
-            'use_sim_time': use_sim_time,
-            'robot_description': robot_description}],
-        output='screen')
+    # ---------- Kinematics Node (Include 방식으로 변경) ----------------------
+    kinematics_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('tr_kinematics_differential2'), 'launch', 'kinematics.launch.py')
+        ),
+        launch_arguments={
+            'use_sim': 'true',
+            'use_sim_time': use_sim_time_arg  # kinematics.launch.py에 use_sim_time 값 전달
+        }.items()
+    )
 
-    teleop = Node(
+    launch_twist_mux = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('tr_twist_mux'), 'launch', 'twist_mux_launch.py')
+        )
+    )
+
+    node_ekf = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_localization',
+        parameters=[ekf_config_path, {'use_sim_time': True}],
+        remappings=[('odometry/filtered', 'odom')]
+    )
+
+    launch_laser_integrator = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('laser_scan_integrator'), 'launch', 'integrate_2_scan.launch.py')
+        )
+    )
+
+    # ---------- Controller Spawners ---------------------------------------
+    spawn_jsb_node = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_state_broadcaster', '-c', '/controller_manager'],
+        output='screen'
+    )
+
+    # Spawner가 velocity_controller를 로드하도록 수정
+    delay_controller_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=spawn_jsb_node,
+            on_exit=[
+                Node(
+                    package='controller_manager',
+                    executable='spawner',
+                    arguments=['velocity_controller', '-c', '/controller_manager'],
+                    output='screen',
+                )
+            ]
+        )
+    )
+
+    # ---------- Other Nodes -----------------------------------------------
+    teleop_node = Node(
         package='teleop_twist_keyboard',
         executable='teleop_twist_keyboard',
         prefix='xterm -e',
         name='teleop',
-        output='screen')
+        output='screen',
+        remappings=[('cmd_vel', 'cmd_vel_key')]
+    )
 
-    controllers_yaml = PathJoinSubstitution(
-        [FindPackageShare('tr_sim'), 'configs', 'jtc_params.yaml'])
-
-    load_jsb = Node(                                         # joint_state_broadcaster
-        package='controller_manager',
-        executable='spawner',
-        arguments=[
-            'joint_state_broadcaster',
-            '-c', '/controller_manager',
-            '--param-file', controllers_yaml],
-        output='screen')
-
-    load_jtc = Node(                                         # joint_trajectory_controller
-        package='controller_manager',
-        executable='spawner',
-        arguments=[
-            'joint_trajectory_controller',
-            '-c', '/controller_manager',
-            '--param-file', controllers_yaml],
-        output='screen')
-
-    # ---------- Append all actions ----------------------------------------
-    launch_actions += [
-        state_pub,
+    # Return all actions to be launched
+    return [
         gazebo,
-        spawn_entity,
-        teleop,
-        load_jsb,
-        load_jtc
+        robot_state_publisher_node,
+        spawn_entity_node,
+        kinematics_launch,
+        teleop_node,
+        spawn_jsb_node,
+        delay_controller_spawner,
+        node_ekf,
+        launch_twist_mux,
+        launch_laser_integrator
     ]
-    return launch_actions
 
 
 def generate_launch_description():
-    ld = LaunchDescription()
+    """
+    Main launch function.
+    """
+    return LaunchDescription([
+        # Launch argument for selecting the world
+        DeclareLaunchArgument(
+            'world',
+            default_value='warehouse',
+            description='Available worlds: "neo_track1", "neo_workshop", "warehouse" or a full path to a world file'
+        ),
 
-    ld.add_action(DeclareLaunchArgument(
-        'world',
-        default_value='neo_workshop',
-        description='Available worlds: "neo_track1", "neo_workshop"'))
+        # Launch argument for using simulation time
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value='true',
+            description='Use simulation (Gazebo) clock if true'
+        ),
 
-    ld.add_action(OpaqueFunction(
-        function=launch_setup,
-        args=[LaunchConfiguration('world')]))
-
-    return ld
+        # OpaqueFunction to access launch arguments
+        OpaqueFunction(
+            function=launch_setup,
+            args=[
+                LaunchConfiguration('world'),
+                LaunchConfiguration('use_sim_time')
+            ]
+        )
+    ])

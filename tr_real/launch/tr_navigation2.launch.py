@@ -30,7 +30,6 @@ def generate_launch_description():
     ]
 
     use_multi_robots = LaunchConfiguration('use_multi_robots', default='False')
-    use_amcl = LaunchConfiguration('use_amcl', default='True')
     use_sim_time = LaunchConfiguration('use_sim_time', default='False')
     namespace = LaunchConfiguration('namespace', default='')
     use_namespace = LaunchConfiguration('use_namespace', default='False')
@@ -52,18 +51,7 @@ def generate_launch_description():
         declare_map_name_arg,
 
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([nav2_launch_file_dir, '/localization_tr.launch.py']), 
-            condition=IfCondition(PythonExpression(['not ', use_amcl])),
-            launch_arguments={
-                'map': map_dir, # 동적으로 생성된 맵 경로를 전달합니다.
-                'use_sim_time': use_sim_time,
-                'use_multi_robots': use_multi_robots,
-                'params_file': param_dir,
-                'namespace': namespace}.items(),
-        ),
-        IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/localization_amcl.launch.py']),
-            condition=IfCondition(use_amcl),
             launch_arguments={
                 'map': map_dir, # 동적으로 생성된 맵 경로를 전달합니다.
                 'use_sim_time': use_sim_time,
