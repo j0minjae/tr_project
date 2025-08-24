@@ -298,13 +298,9 @@ velocity_smoother:
     deadband_velocity: [0.02, 0.0, 0.08]
     velocity_timeout: 1.0
 
-
-# 1. Speed Mask를 발행할 Map Server 추가
-# 기존 map_server와는 별개의 노드 이름으로 추가합니다.
 map_server_speed_mask:
   ros__parameters:
     use_sim_time: false
-    # 방금 만든 마스크용 yaml 파일 경로를 정확하게 입력하세요.
-    yaml_filename: "/home/home/tr_ws/src/tr_real/maps/speed_mask.yaml"
-    topic_name: "/speed_mask" # 마스크를 발행할 토픽 이름
+    yaml_filename: "/home/home/tr_ws/src/tr_real/maps/speed_mask.yaml" # /home/<user_name>/..
+    topic_name: "/speed_mask"
     frame_id: "map"
