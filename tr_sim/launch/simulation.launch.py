@@ -22,7 +22,7 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
     """
     # Get the actual values from the launch arguments
     world_name = world_name_arg.perform(context)
-    
+
     # Package paths
     tr_sim_share = get_package_share_directory('tr_sim')
     tr_description_share = get_package_share_directory('tr_description')
@@ -47,7 +47,6 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
         }.items()
     )
 
-    # ---------- Robot description / spawn ---------------------------------
     robot_description_xacro = os.path.join(tr_description_share, 'urdf', 'amr_sim.urdf.xacro')
     controller_yaml_path = os.path.join(tr_sim_share, 'configs', 'amr_controller.yaml')
     lidar_macro_path = os.path.join(tr_sim_share, 'components', 'common_macro', 'gazebo_lidar_macro.xacro')
@@ -57,7 +56,6 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
         mappings={'use_gazebo': 'true', 'controller_yaml_path': controller_yaml_path, 'lidar_macro_path': lidar_macro_path}
     ).toxml()
 
-    # Robot State Publisher Node
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -76,13 +74,11 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
         output='screen'
     )
 
-    # ---------- Kinematics Node (Include 방식으로 변경) ----------------------
     kinematics_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory('tr_kinematics_differential2'), 'launch', 'kinematics.launch.py')
         ),
         launch_arguments={
-            'use_sim': 'true',
             'use_sim_time': use_sim_time_arg  # kinematics.launch.py에 use_sim_time 값 전달
         }.items()
     )
@@ -90,24 +86,29 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
     launch_twist_mux = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory('tr_twist_mux'), 'launch', 'twist_mux_launch.py')
-        )
+        ),
+        launch_arguments={
+            'use_sim_time': use_sim_time_arg
+        }.items()
     )
 
     node_ekf = Node(
         package='robot_localization',
         executable='ekf_node',
         name='ekf_localization',
-        parameters=[ekf_config_path, {'use_sim_time': True}],
+        parameters=[ekf_config_path, {'use_sim_time': use_sim_time_arg}],
         remappings=[('odometry/filtered', 'odom')]
     )
 
     launch_laser_integrator = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory('laser_scan_integrator'), 'launch', 'integrate_2_scan.launch.py')
-        )
+        ),
+        launch_arguments={
+            'use_sim_time': use_sim_time_arg
+        }.items()
     )
 
-    # ---------- Controller Spawners ---------------------------------------
     spawn_jsb_node = Node(
         package='controller_manager',
         executable='spawner',
@@ -115,7 +116,6 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
         output='screen'
     )
 
-    # Spawner가 velocity_controller를 로드하도록 수정
     delay_controller_spawner = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=spawn_jsb_node,
@@ -130,7 +130,6 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
         )
     )
 
-    # ---------- Other Nodes -----------------------------------------------
     teleop_node = Node(
         package='teleop_twist_keyboard',
         executable='teleop_twist_keyboard',
@@ -140,7 +139,6 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
         remappings=[('cmd_vel', 'cmd_vel_key')]
     )
 
-    # Return all actions to be launched
     return [
         gazebo,
         robot_state_publisher_node,
