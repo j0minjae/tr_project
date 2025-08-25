@@ -34,11 +34,6 @@ def generate_launch_description():
     namespace = LaunchConfiguration('namespace', default='')
     use_namespace = LaunchConfiguration('use_namespace', default='False')
     use_rviz = LaunchConfiguration('use_rviz', default='True')
-    declare_use_speed_mask_cmd = DeclareLaunchArgument(
-        'use_speed_mask',
-        default_value='False',
-        description='Enable the speed mask feature')
-    use_speed_mask = LaunchConfiguration('use_speed_mask')
 
     param_file_name = 'tr_navigation.yaml'
     param_dir = LaunchConfiguration(
@@ -49,11 +44,10 @@ def generate_launch_description():
             param_file_name))
 
     nav2_launch_file_dir = os.path.join(get_package_share_directory('tr_nav2_bringup'), 'launch')
-    
+
     return LaunchDescription([
         # 위에서 선언한 'map_name' 인자를 런치 설명에 추가합니다.
         declare_map_name_arg,
-        declare_use_speed_mask_cmd,
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/localization_amcl.launch.py']),
             launch_arguments={
@@ -68,6 +62,5 @@ def generate_launch_description():
             launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'params_file': param_dir,
-                              'use_rviz': use_rviz,
-                              'use_speed_mask': use_speed_mask}.items()),
+                              'use_rviz': use_rviz}.items()),
     ])

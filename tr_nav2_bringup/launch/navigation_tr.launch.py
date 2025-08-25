@@ -29,7 +29,6 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 def generate_launch_description():
     # Get the launch directory
     bringup_dir = get_package_share_directory('tr_nav2_bringup')
-    speed_mask_yaml_file = LaunchConfiguration('speed_mask')
     namespace = LaunchConfiguration('namespace')
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
@@ -43,8 +42,8 @@ def generate_launch_description():
                        'behavior_server',
                        'bt_navigator',
                        'waypoint_follower',
-                       'map_server_speed_mask',          # 추가
-                       'costmap_filter_info_server']   # 추가
+                    #    'velocity_smoother',
+                        ]
 
     remappings = [('/tf', 'tf'),
                   ('/tf_static', 'tf_static'),
@@ -85,12 +84,6 @@ def generate_launch_description():
         'use_multi_robots', default_value='False',
         description='A flag to remove the remappings')
 
-    declare_speed_mask_yaml_cmd = DeclareLaunchArgument(
-        'speed_mask',
-        default_value='',
-        description='Full path to speed mask yaml file to load',
-    )
-
     load_nodes = GroupAction(
         condition=IfCondition(PythonExpression(['not ', use_multi_robots])),
         actions=[
@@ -128,22 +121,15 @@ def generate_launch_description():
                 output='screen',
                 parameters=[configured_params],
                 remappings=remappings),
-
-            # --- [수정 2] 여기에 Speed Filter 관련 노드 2개를 추가합니다. ---
-            Node(
-              package='nav2_map_server',
-              executable='map_server',
-              name='map_server_speed_mask',
-              output='screen',
-              parameters=[configured_params],
-              remappings=remappings),
-          Node(
-              package='nav2_map_server',
-              executable='costmap_filter_info_server',
-              name='costmap_filter_info_server',
-              output='screen',
-              parameters=[configured_params],
-              remappings=remappings),
+            # Node(
+            #     package='nav2_velocity_smoother',
+            #     executable='velocity_smoother',
+            #     name='velocity_smoother',
+            #     output='screen',
+            #     parameters=[configured_params],
+            #     remappings=remappings + [
+            #         ('/cmd_vel_smoothed', 'cmd_vel_nav')
+            #     ]),
             # ----------------------------------------------------------------
 
             Node(
@@ -167,8 +153,6 @@ def generate_launch_description():
         ]
     )
 
-    # ... (load_nodes_multi_robot 부분은 multi-robot을 사용하지 않으신다면 수정할 필요 없습니다) ...
-    
     # Create the launch description and populate
     ld = LaunchDescription()
 
@@ -178,8 +162,6 @@ def generate_launch_description():
     ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_autostart_cmd)
     ld.add_action(declare_use_multi_robots_cmd)
-    ld.add_action(declare_speed_mask_yaml_cmd)
-
 
     # Add the actions to launch all of the navigation nodes
     ld.add_action(load_nodes)
