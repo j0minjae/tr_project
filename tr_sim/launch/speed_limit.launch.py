@@ -35,7 +35,7 @@ def generate_launch_description():
     lifecycle_nodes = ['filter_mask_server', 'costmap_filter_info_server']
 
     default_params_file = os.path.join(tr_sim_dir, 'configs', 'speed_params.yaml')
-    default_mask_file = os.path.join(tr_sim_dir, 'maps', 'warehouse_sm.yaml')
+    default_mask_file = os.path.join(tr_sim_dir, 'maps', 'speed_mask.yaml')
 
     # Parameters
     namespace = LaunchConfiguration('namespace')

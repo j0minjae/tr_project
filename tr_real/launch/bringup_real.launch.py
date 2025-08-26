@@ -33,7 +33,10 @@ def generate_launch_description():
     launch_tr_kinematics = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(tr_kinematics_dir, 'launch', 'kinematics.launch.py')
-        )
+        ),
+        launch_arguments={
+            'use_sim_time': 'false'  # kinematics.launch.py에 use_sim_time 값 전달
+        }.items()
     )
     
     launch_sick_lidar = IncludeLaunchDescription(
@@ -76,7 +79,7 @@ def generate_launch_description():
     ld.add_action(launch_tr_driver)
     ld.add_action(launch_tr_kinematics)
     ld.add_action(node_imu)
-    ld.add_action(node_pgv)
+    # ld.add_action(node_pgv)
     ld.add_action(launch_sick_lidar)
     ld.add_action(node_ekf)
     ld.add_action(launch_tr_description)

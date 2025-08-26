@@ -51,8 +51,7 @@ public:
         if (use_for_simulation_) {
             topicPub_VelocityCommands = this->create_publisher<std_msgs::msg::Float64MultiArray>("velocity_controller/commands", 10);
         } else {
-            this->get_parameter("joint_trajectory_topic", joint_trajectory_topic);
-            topicPub_TrajectoryCommands = this->create_publisher<trajectory_msgs::msg::JointTrajectory>(joint_trajectory_topic, 10);
+            topicPub_TrajectoryCommands = this->create_publisher<trajectory_msgs::msg::JointTrajectory>("drives/joint_trajectory", 10);
         }
 
 		topicSub_ComVel = this->create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 1, std::bind(&PlatformCtrlNode::receiveCmd, this, _1));
