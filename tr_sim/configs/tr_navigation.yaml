@@ -143,7 +143,7 @@ controller_server:
       max_linear_accel: 1.0
       min_approach_linear_velocity: 0.03
       approach_velocity_scaling_dist: 1.0
-      max_angular_accel: 1.2
+      max_angular_accel: 3.0
       max_allowed_time_to_collision: 1.0
       rotate_to_heading_min_angle: 0.1
 
