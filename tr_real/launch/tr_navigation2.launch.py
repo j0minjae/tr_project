@@ -18,7 +18,7 @@ def generate_launch_description():
     )
     declare_map_name_arg = DeclareLaunchArgument(
         'map_name',
-        default_value='factory_h',
+        default_value='fac_final',
         description='Name of the map file in tr_real/maps directory (without .yaml extension)'
     )
 

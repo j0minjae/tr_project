@@ -5,7 +5,7 @@ costmap_filter_info_server:
     filter_info_topic: "/costmap_filter_info"
     mask_topic: "/speed_filter_mask"
     base: 0.1
-    multiplier: 0.69535
+    multiplier: 0.3
 filter_mask_server:
   ros__parameters:
     use_sim_time: true

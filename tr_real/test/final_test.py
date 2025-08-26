@@ -41,21 +41,21 @@ class AgvPerformanceTester(Node):
         # 테스트 설정값 및 결과 변수
         self.STOP_TARGET_WPS = {2, 5}
         self.WP_TO_TAG_MAP = {
-            2: 13,
-            5: 0
+            2: 18,
+            5: 15
         }
         self.STOP_TOLERANCE_MM = 10.0
-        self.PATH_TARGET_TAG_IDS = {1, 3, 4, 5, 6, 7, 8, 10}
+        self.PATH_TARGET_TAG_IDS = {19}
         self.PATH_Y_TOLERANCE_MM = 30.0
-        self.DEFAULT_XY_TOL = 0.03
-        self.PRECISE_XY_TOL = 0.03
+        self.DEFAULT_XY_TOL = 0.05
+        self.PRECISE_XY_TOL = 0.05
         self.is_monitoring_path = False
         self.last_pgv_msg = None
 
         # 데이터 기반 오프셋 값 (미터 단위)
         self.POSITION_OFFSETS_M = {
-            0: {'x': -44.55 / 1000, 'y': 36.60 / 1000},
-            13: {'x': -21.11 / 1000, 'y': -34.43 / 1000}
+            18: {'x': 0.0 / 1000, 'y': 0.0 / 1000},
+            15: {'x': 0.0 / 1000, 'y': 0.0 / 1000}
         }
 
         # 데이터 저장을 위한 변수 초기화
@@ -87,7 +87,7 @@ class AgvPerformanceTester(Node):
 
     def perform_origin_alignment(self) -> bool:
         self.get_logger().info("\n" + "="*60)
-        self.get_logger().info("🚦 원점 정렬을 시작합니다. 로봇을 Tag ID 0 위에 위치시켜주세요.")
+        self.get_logger().info("🚦 원점 정렬을 시작합니다. 로봇을 Tag ID 15 위에 위치시켜주세요.")
         self.get_logger().info(f"목표: 태그 중심으로부터 거리 {self.STOP_TOLERANCE_MM:.1f} mm 이내")
         self.get_logger().info("정렬이 완료되면 'y'를 입력하여 원점을 설정합니다. (중단: Ctrl+C)")
         self.get_logger().info("="*60)
@@ -96,8 +96,8 @@ class AgvPerformanceTester(Node):
             if self.last_pgv_msg is None:
                 self.get_logger().warn("PGV 데이터를 수신 대기중...", throttle_duration_sec=2)
                 continue
-            if not self.last_pgv_msg.tag_detected or self.last_pgv_msg.tag_id != 0:
-                print(f"\r\033[K[❌] Tag 0을 찾고 있습니다... (감지 플래그: {self.last_pgv_msg.tag_detected}, ID: {self.last_pgv_msg.tag_id})", end="")
+            if not self.last_pgv_msg.tag_detected or self.last_pgv_msg.tag_id != self.WP_TO_TAG_MAP[5]:
+                print(f"\r\033[K[❌] Tag 15을 찾고 있습니다... (감지 플래그: {self.last_pgv_msg.tag_detected}, ID: {self.last_pgv_msg.tag_id})", end="")
                 continue
             x_mm, y_mm = self.last_pgv_msg.x_pos, self.last_pgv_msg.y_pos
             distance_mm = math.sqrt(x_mm**2 + y_mm**2)
@@ -284,11 +284,11 @@ class AgvPerformanceTester(Node):
             wp2_data = [d for d in self.stop_position_data if d['wp'] == 2]
             if wp2_data:
                 plt.scatter([d['x_pos_mm'] for d in wp2_data], [d['y_pos_mm'] for d in wp2_data],
-                            marker='o', color='blue', label='WP2 (Tag 13)', alpha=0.7, edgecolors='k')
+                            marker='o', color='blue', label='WP2 (Tag 18)', alpha=0.7, edgecolors='k')
             wp5_data = [d for d in self.stop_position_data if d['wp'] == 5]
             if wp5_data:
                 plt.scatter([d['x_pos_mm'] for d in wp5_data], [d['y_pos_mm'] for d in wp5_data],
-                            marker='^', color='green', label='WP5 (Tag 0)', alpha=0.7, edgecolors='k')
+                            marker='^', color='green', label='WP5 (Tag 15)', alpha=0.7, edgecolors='k')
             
             plt.title('Stop Position Accuracy at WP2 & WP5')
             plt.xlabel('X Position (mm)')
@@ -342,11 +342,11 @@ def main():
     node = AgvPerformanceTester()
 
     waypoints = [
-        make_pose(1.947, 0.008, -1.639),
-        make_pose(1.846, -6.978, 3.130),
-        make_pose(-0.010, -6.948, 0.029),
-        make_pose(1.846, -6.978, 1.559),
-        make_pose(1.947, 0.008, 3.074),
+        make_pose(2.0, 0.0, -1.571),
+        make_pose(2.0, -7.0, -3.141),
+        make_pose(0.0, -7.0, 0.0),
+        make_pose(2.0, -7.0, 1.571),
+        make_pose(2.0, 0.0, 3.141),
         make_pose(0.0, 0.0, 0.0)
     ]
 
