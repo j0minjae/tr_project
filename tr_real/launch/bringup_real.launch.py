@@ -16,6 +16,8 @@ def generate_launch_description():
     sick_safetyscanners_dir = get_package_share_directory('sick_safetyscanners2')
     teleop_twist_joy_dir = get_package_share_directory('teleop_twist_joy')
     ekf_config_path = os.path.join(tr_real_dir, 'configs', 'robot_localization_ekf.yaml')
+    integrate_laser_launch_file_dir = os.path.join(get_package_share_directory('laser_scan_integrator'), 'launch')
+
 
     # IncludeLaunchDescription을 사용하여 다른 런치 파일을 포함합니다.
     launch_tr_description = IncludeLaunchDescription(
@@ -62,6 +64,10 @@ def generate_launch_description():
         )
     )
 
+    launch_integrate_scan = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([integrate_laser_launch_file_dir, '/integrate_2_scan.launch.py']),
+        )
+
     node_imu = Node(package='tr_driver_imu', executable="imu_node")
     node_pgv = Node(package='tr_driver_pgv', executable="pgv_node")
 
@@ -79,11 +85,12 @@ def generate_launch_description():
     ld.add_action(launch_tr_driver)
     ld.add_action(launch_tr_kinematics)
     ld.add_action(node_imu)
-    # ld.add_action(node_pgv)
+    ld.add_action(node_pgv)
     ld.add_action(launch_sick_lidar)
     ld.add_action(node_ekf)
     ld.add_action(launch_tr_description)
     ld.add_action(launch_teleop_joy)
     ld.add_action(launch_twist_mux)
+    ld.add_action(launch_integrate_scan)
 
     return ld

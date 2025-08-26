@@ -43,14 +43,19 @@ void DiffDrive2WKinematics::execForwKin(const std::shared_ptr<const sensor_msgs:
 // 함수 정의를 헤더파일과 일치시킵니다.
 void DiffDrive2WKinematics::execInvKin(const std::shared_ptr<const geometry_msgs::msg::Twist>& twist, trajectory_msgs::msg::JointTrajectory& traj)
 {
-    const double w_left  = (twist->linear.x - 0.5 * twist->angular.z * m_dAxisLength) * 2.0 / m_dDiam;
+    constexpr double DT = 0.02;
+
+	traj.joint_names = {"wheel_left_joint", "wheel_right_joint"};
+	traj.points.clear();
+	
+	const double w_left  = (twist->linear.x - 0.5 * twist->angular.z * m_dAxisLength) * 2.0 / m_dDiam;
     const double w_right = (twist->linear.x + 0.5 * twist->angular.z * m_dAxisLength) * 2.0 / m_dDiam;
     
     traj.points.resize(1); // Point 배열 크기를 1로 설정
     traj.points[0].velocities.resize(2);
     traj.points[0].velocities[0] = w_left;
     traj.points[0].velocities[1] = w_right;
-    traj.points[0].time_from_start = rclcpp::Duration::from_seconds(0.1);
+    traj.points[0].time_from_start = rclcpp::Duration::from_seconds(DT);
 }
 
 // 함수 정의를 헤더파일과 일치시킵니다.

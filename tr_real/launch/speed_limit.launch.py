@@ -31,11 +31,11 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     # Get the launch directory
-    tr_sim_dir = get_package_share_directory('tr_sim')
+    tr_real_dir = get_package_share_directory('tr_real')
     lifecycle_nodes = ['filter_mask_server', 'costmap_filter_info_server']
 
-    default_params_file = os.path.join(tr_sim_dir, 'configs', 'speed_params.yaml')
-    default_mask_file = os.path.join(tr_sim_dir, 'maps', 'warehouse_sm.yaml')
+    default_params_file = os.path.join(tr_real_dir, 'configs', 'speed_params.yaml')
+    default_mask_file = os.path.join(tr_real_dir, 'maps', 'speed_mask.yaml')
 
     # Parameters
     namespace = LaunchConfiguration('namespace')

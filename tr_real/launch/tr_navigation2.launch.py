@@ -11,12 +11,18 @@ from launch_ros.actions import Node
 from launch.conditions import IfCondition
 
 def generate_launch_description():
+    declare_use_speed_zone_arg = DeclareLaunchArgument(
+        'use_speed_zone',
+        default_value='True',
+        description='Set to "False" to disable the speed limit zones.'
+    )
     declare_map_name_arg = DeclareLaunchArgument(
         'map_name',
         default_value='factory_h',
         description='Name of the map file in tr_real/maps directory (without .yaml extension)'
     )
 
+    use_speed_zone = LaunchConfiguration('use_speed_zone')
     map_name = LaunchConfiguration('map_name')
 
     map_dir = [
@@ -44,10 +50,12 @@ def generate_launch_description():
             param_file_name))
 
     nav2_launch_file_dir = os.path.join(get_package_share_directory('tr_nav2_bringup'), 'launch')
-    merge_launch_file_dir = os.path.join(get_package_share_directory('laser_scan_integrator'), 'launch')
-    
+    real_launch_file_dir = os.path.join(get_package_share_directory('tr_real'), 'launch')
+
+
     return LaunchDescription([
         # 위에서 선언한 'map_name' 인자를 런치 설명에 추가합니다.
+        declare_use_speed_zone_arg,
         declare_map_name_arg,
 
         IncludeLaunchDescription(
@@ -66,6 +74,8 @@ def generate_launch_description():
                               'params_file': param_dir,
                               'use_rviz': use_rviz}.items()),
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([merge_launch_file_dir, '/integrate_2_scan.launch.py']),
-        ),
+            PythonLaunchDescriptionSource([real_launch_file_dir, '/speed_limit.launch.py']),
+            condition=IfCondition(use_speed_zone),  # 이 조건이 참일 때만 실행됩니다.
+            launch_arguments={'namespace': namespace,
+                              'use_sim_time': use_sim_time}.items()),
     ])

@@ -11,6 +11,13 @@ from launch_ros.actions import Node
 from launch.conditions import IfCondition
 
 def generate_launch_description():
+    # ========== [추가된 부분 1] speed zone 사용 여부 파라미터 선언 ==========
+    declare_use_speed_zone_arg = DeclareLaunchArgument(
+        'use_speed_zone',
+        default_value='True',
+        description='Set to "False" to disable the speed limit zones.'
+    )
+
     declare_map_name_arg = DeclareLaunchArgument(
         'map_name',
         default_value='warehouse',
@@ -18,6 +25,9 @@ def generate_launch_description():
     )
 
     map_name = LaunchConfiguration('map_name')
+    
+    # ========== [추가된 부분 2] 선언한 파라미터의 값을 가져옴 ==========
+    use_speed_zone = LaunchConfiguration('use_speed_zone')
 
     map_dir = [
         os.path.join(
@@ -44,10 +54,13 @@ def generate_launch_description():
             param_file_name))
 
     nav2_launch_file_dir = os.path.join(get_package_share_directory('tr_nav2_bringup'), 'launch')
+    sim_launch_file_dir = os.path.join(get_package_share_directory('tr_sim'), 'launch')
 
     return LaunchDescription([
-        # 위에서 선언한 'map_name' 인자를 런치 설명에 추가합니다.
+        # 위에서 선언한 인자들을 런치 설명에 추가합니다.
+        declare_use_speed_zone_arg,
         declare_map_name_arg,
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/localization_amcl.launch.py']),
             launch_arguments={
@@ -57,10 +70,17 @@ def generate_launch_description():
                 'params_file': param_dir,
                 'namespace': namespace}.items(),
         ),
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/navigation_tr.launch.py']),
             launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'params_file': param_dir,
                               'use_rviz': use_rviz}.items()),
+        
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([sim_launch_file_dir, '/speed_limit.launch.py']),
+            condition=IfCondition(use_speed_zone),
+            launch_arguments={'namespace': namespace,
+                              'use_sim_time': use_sim_time}.items()),
     ])
