@@ -30,22 +30,23 @@ from nav2_common.launch import RewrittenYaml
 
 
 def generate_launch_description():
-    # Get the launch directory
-    tr_sim_dir = get_package_share_directory('tr_sim')
-    lifecycle_nodes = ['filter_mask_server', 'costmap_filter_info_server']
-
-    default_params_file = os.path.join(tr_sim_dir, 'configs', 'speed_params.yaml')
-    default_mask_file = os.path.join(tr_sim_dir, 'maps', 'warehouse_sm.yaml')
-
     # Parameters
     namespace = LaunchConfiguration('namespace')
     use_sim_time = LaunchConfiguration('use_sim_time')
+    map_name = LaunchConfiguration('map_name')
     autostart = LaunchConfiguration('autostart')
     params_file = LaunchConfiguration('speed_params_file')
     mask_yaml_file = LaunchConfiguration('mask')
     use_composition = LaunchConfiguration('use_composition')
     container_name = LaunchConfiguration('container_name')
     container_name_full = (namespace, '/', container_name)
+
+    # Get the launch directory
+    tr_sim_dir = get_package_share_directory('tr_sim')
+    lifecycle_nodes = ['filter_mask_server', 'costmap_filter_info_server']
+
+    default_params_file = os.path.join(tr_sim_dir, 'configs', 'speed_params.yaml')
+    default_mask_file = [os.path.join(tr_sim_dir, 'maps', ''), map_name, '_sm', '.yaml'] # sm: speed mask
 
     # Declare the launch arguments
     declare_namespace_cmd = DeclareLaunchArgument(
@@ -57,6 +58,12 @@ def generate_launch_description():
         'use_sim_time',
         default_value='true',
         description='Use simulation (Gazebo) clock if true')
+
+    declare_map_name = DeclareLaunchArgument(
+        'map_name',
+        default_value='warehouse',
+        description=''
+    )
 
     declare_autostart_cmd = DeclareLaunchArgument(
         'autostart', default_value='true',
@@ -161,6 +168,7 @@ def generate_launch_description():
 
     ld.add_action(declare_namespace_cmd)
     ld.add_action(declare_use_sim_time_cmd)
+    ld.add_action(declare_map_name)
     ld.add_action(declare_autostart_cmd)
     ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_mask_yaml_file_cmd)

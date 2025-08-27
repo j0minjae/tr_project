@@ -25,18 +25,12 @@ def generate_launch_description():
     )
 
     map_name = LaunchConfiguration('map_name')
-    
+
     # ========== [추가된 부분 2] 선언한 파라미터의 값을 가져옴 ==========
     use_speed_zone = LaunchConfiguration('use_speed_zone')
 
     map_dir = [
-        os.path.join(
-            get_package_share_directory('tr_sim'),
-            'maps',
-            ''
-        ),
-        map_name,
-        '.yaml'
+        os.path.join(get_package_share_directory('tr_sim'), 'maps', ''), map_name, '.yaml'
     ]
 
     use_multi_robots = LaunchConfiguration('use_multi_robots', default='False')
@@ -77,10 +71,11 @@ def generate_launch_description():
                               'use_sim_time': use_sim_time,
                               'params_file': param_dir,
                               'use_rviz': use_rviz}.items()),
-        
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([sim_launch_file_dir, '/speed_limit.launch.py']),
             condition=IfCondition(use_speed_zone),
             launch_arguments={'namespace': namespace,
+                              'map_name': map_name,
                               'use_sim_time': use_sim_time}.items()),
     ])

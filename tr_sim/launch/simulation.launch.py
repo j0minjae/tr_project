@@ -30,7 +30,7 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
     ekf_config_path = os.path.join(get_package_share_directory('tr_sim'), 'configs', 'robot_localization_ekf.yaml')
 
     # ---------- Gazebo world ----------------------------------------------
-    if world_name in ("neo_workshop", "neo_track1", "warehouse"):
+    if world_name in ("warehouse", "test"):
         world_path = os.path.join(tr_sim_share, 'worlds', f'{world_name}.world')
     else:
         world_path = world_name
@@ -162,7 +162,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'world',
             default_value='warehouse',
-            description='Available worlds: "neo_track1", "neo_workshop", "warehouse" or a full path to a world file'
+            description='Available worlds: "warehouse" or a full path to a world file'
         ),
 
         # Launch argument for using simulation time

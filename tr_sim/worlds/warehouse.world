@@ -27,7 +27,7 @@
           <surface>
             <friction>
               <ode>
-                <mu>10s0</mu>
+                <mu>100</mu>
                 <mu2>50</mu2>
               </ode>
               <torsional>
@@ -1214,7 +1214,7 @@
       </link>
       <pose frame=''>4.95299 5.6442 0 0 -0 0</pose>
     </model>
-    <model name='workcell_bin_clone_1'> 
+    <model name='workcell_bin_clone_1'>
       <static>1</static>
       <link name='link'>
         <visual name='visual'>
