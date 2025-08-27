@@ -128,8 +128,32 @@ controller_server:
       xy_goal_tolerance: 0.03
       yaw_goal_tolerance: 0.1
       stateful: True
+    # FollowPath:
+    #   plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
+    #   desired_linear_vel: 1.0
+    #   use_velocity_scaled_lookahead_dist: True
+    #   lookahead_dist: 1.0
+    #   min_lookahead_dist: 0.3
+    #   max_lookahead_dist: 1.2
+    #   use_regulated_linear_velocity_scaling: true
+    #   use_cost_regulated_linear_velocity_scaling: false
+    #   use_rotate_to_heading: True
+    #   rotate_to_heading_angular_vel: 1.5
+    #   allow_reversing: false
+    #   max_linear_accel: 1.0
+    #   min_approach_linear_velocity: 0.03
+    #   approach_velocity_scaling_dist: 1.0
+    #   max_angular_accel: 3.0
+    #   max_allowed_time_to_collision: 1.0
+    #   rotate_to_heading_min_angle: 0.1
     FollowPath:
-      plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
+      plugin: "nav2_rotation_shim_controller::RotationShimController"
+      # 4. RotationShimController의 파라미터 설정
+      angular_dist_threshold: 0.1
+      angular_disengage_threshold: 0.05
+      rotate_to_goal_heading: true
+      # 5. 감싸고자 하는 주행 컨트롤러(Primary Controller) 지정
+      primary_controller: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
       desired_linear_vel: 1.0
       use_velocity_scaled_lookahead_dist: True
       lookahead_dist: 1.0
@@ -137,15 +161,8 @@ controller_server:
       max_lookahead_dist: 1.2
       use_regulated_linear_velocity_scaling: true
       use_cost_regulated_linear_velocity_scaling: false
-      use_rotate_to_heading: True
-      rotate_to_heading_angular_vel: 1.5
-      allow_reversing: false
-      max_linear_accel: 1.0
-      min_approach_linear_velocity: 0.03
-      approach_velocity_scaling_dist: 1.0
-      max_angular_accel: 3.0
-      max_allowed_time_to_collision: 1.0
-      rotate_to_heading_min_angle: 0.1
+      approach_velocity_scaling_dist: 0.3
+      use_rotate_to_heading: false
 
 local_costmap:
   local_costmap:
@@ -242,10 +259,12 @@ planner_server:
     use_sim_time: False
     planner_plugins: ["GridBased"]
     GridBased:
-      plugin: "nav2_navfn_planner/NavfnPlanner"
-      tolerance: 0.5
-      use_astar: true
-      allow_unknown: true
+      # plugin: "nav2_navfn_planner/NavfnPlanner"
+      # tolerance: 0.5
+      # use_astar: true
+      # allow_unknown: true
+      plugin: "nav2_straightline_planner/StraightLine"
+      interpolation_resolution: 0.1
 
 behavior_server:
   ros__parameters:
