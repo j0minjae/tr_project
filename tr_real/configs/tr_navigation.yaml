@@ -131,7 +131,7 @@ controller_server:
     FollowPath:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
       # 4. RotationShimController의 파라미터 설정
-      # angular_dist_threshold: 0.3
+      angular_dist_threshold: 0.5
       angular_disengage_threshold: 0.35
       rotate_to_goal_heading: true
       rotate_to_heading_angular_vel: 1.0
