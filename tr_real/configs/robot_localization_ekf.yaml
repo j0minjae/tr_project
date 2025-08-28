@@ -1,7 +1,7 @@
 ekf_localization:
   ros__parameters:
     # GENERAL SETTINGS
-    frequency: 200.0
+    frequency: 100.0
     two_d_mode: true
     predict_to_current_time: true
     

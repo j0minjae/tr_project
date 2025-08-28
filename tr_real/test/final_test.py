@@ -8,8 +8,6 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from rclpy.node import Node
 from rclpy.action import ActionClient
-from rclpy.parameter import Parameter
-from rcl_interfaces.srv import SetParameters
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped, Twist
 from nav2_msgs.action import NavigateToPose
 from action_msgs.msg import GoalStatus
@@ -29,9 +27,8 @@ def make_pose(x: float, y: float, yaw: float, frame: str = "map") -> PoseStamped
 class AgvPerformanceTester(Node):
     def __init__(self):
         super().__init__("agv_performance_tester")
-        # 액션, 서비스 클라이언트
+        # 액션 클라이언트
         self._ac_navigate = ActionClient(self, NavigateToPose, "/navigate_to_pose")
-        self.param_client_controller = self.create_client(SetParameters, '/controller_server/set_parameters')
 
         # 구독, 발행
         self.pgv_sub = self.create_subscription(PgvData, '/pgv', self.pgv_callback, 10)
@@ -47,8 +44,6 @@ class AgvPerformanceTester(Node):
         self.STOP_TOLERANCE_MM = 10.0
         self.PATH_TARGET_TAG_IDS = {19}
         self.PATH_Y_TOLERANCE_MM = 30.0
-        self.DEFAULT_XY_TOL = 0.05
-        self.PRECISE_XY_TOL = 0.05
         self.is_monitoring_path = False
         self.last_pgv_msg = None
 
@@ -61,13 +56,11 @@ class AgvPerformanceTester(Node):
         # 데이터 저장을 위한 변수 초기화
         self.stop_position_data = []
         self.path_y_position_data = []
+        self.current_path_readings = {} # 주행 중 y 값 임시 저장소
 
         # 서버 연결 대기
         self._ac_navigate.wait_for_server()
-        if not self.param_client_controller.wait_for_service(timeout_sec=5.0):
-            self.get_logger().error("Controller Server의 파라미터 서비스에 연결할 수 없습니다.")
-            raise RuntimeError("Parameter service not available")
-        self.get_logger().info("✅ 액션 및 파라미터 서버가 준비되었습니다.")
+        self.get_logger().info("✅ 액션 서버가 준비되었습니다.")
 
     def pgv_callback(self, msg: PgvData):
         self.last_pgv_msg = msg
@@ -75,13 +68,13 @@ class AgvPerformanceTester(Node):
             return
 
         if msg.tag_id in self.PATH_TARGET_TAG_IDS:
+            # 해당 태그 ID의 y 위치 값을 임시 리스트에 추가
+            if msg.tag_id not in self.current_path_readings:
+                self.current_path_readings[msg.tag_id] = []
+            self.current_path_readings[msg.tag_id].append(msg.y_pos)
+            
             y_abs_mm = abs(msg.y_pos)
             is_within_tolerance = y_abs_mm <= self.PATH_Y_TOLERANCE_MM
-            self.path_y_position_data.append({
-                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"),
-                "tag_id": msg.tag_id,
-                "y_pos_mm": msg.y_pos
-            })
             if not is_within_tolerance:
                 self.get_logger().warn(f"🚩 경로 이탈 감지! Tag ID: {msg.tag_id}, Y-Offset: {msg.y_pos:.2f} mm")
 
@@ -208,12 +201,11 @@ class AgvPerformanceTester(Node):
         self.get_logger().info("  - 정밀 보정 기동 완료.")
 
     def go_to_pose(self, pose: PoseStamped, wp_idx: int) -> bool:
-        is_precise_target = wp_idx in self.STOP_TARGET_WPS
-        tolerance = self.PRECISE_XY_TOL if is_precise_target else self.DEFAULT_XY_TOL
-        if not self.set_goal_tolerance(tolerance): return False
-
         self.get_logger().info(f"WP-{wp_idx} [{pose.pose.position.x:.3f}, {pose.pose.position.y:.3f}] (으)로 1차 이동 시작...")
         goal = NavigateToPose.Goal(); goal.pose = pose
+
+        # 경로 모니터링 시작 전, 임시 데이터 저장소 초기화
+        self.current_path_readings.clear()
         self.is_monitoring_path = True
         
         future = self._ac_navigate.send_goal_async(goal)
@@ -230,6 +222,17 @@ class AgvPerformanceTester(Node):
         if status == GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().info(f"✅ WP-{wp_idx} 1차 도착 성공!")
 
+            # 도착 후, 수집된 경로 데이터의 평균을 계산하여 저장
+            for tag_id, y_readings in self.current_path_readings.items():
+                if y_readings:
+                    avg_y_pos = np.mean(y_readings)
+                    self.path_y_position_data.append({
+                        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"),
+                        "tag_id": tag_id,
+                        "y_pos_mm": avg_y_pos
+                    })
+
+            is_precise_target = wp_idx in self.STOP_TARGET_WPS
             if is_precise_target:
                 self.get_logger().info("  - Nav2 목표를 취소하여 /cmd_vel 제어권을 확보합니다.")
                 cancel_future = goal_handle.cancel_goal_async()
@@ -261,15 +264,6 @@ class AgvPerformanceTester(Node):
         self.initial_pose_pub.publish(initial_pose)
         self.get_logger().info("`/initialpose` 토픽으로 초기 위치 발행 완료.")
         time.sleep(1.0)
-
-    def set_goal_tolerance(self, tolerance: float) -> bool:
-        self.get_logger().info(f"목표 허용 오차를 {tolerance * 1000:.1f}mm ({tolerance}m)로 설정합니다.")
-        param = Parameter(name='general_goal_checker.xy_goal_tolerance', value=tolerance)
-        req = SetParameters.Request(); req.parameters = [param.to_parameter_msg()]
-        future = self.param_client_controller.call_async(req)
-        rclpy.spin_until_future_complete(self, future)
-        if future.result() and all(res.successful for res in future.result().results): return True
-        else: self.get_logger().error("파라미터 변경 실패!"); return False
 
     def save_and_plot_results(self):
         self.get_logger().info("\n" + "="*60 + "\n📊 데이터 저장 및 시각화 중... 📊\n" + "="*60)
@@ -318,19 +312,18 @@ class AgvPerformanceTester(Node):
                 writer.writerows(self.path_y_position_data)
             self.get_logger().info("✅ 'path_y_positions.csv' 파일이 저장되었습니다.")
             
+            # Since data is averaged, we can simplify the plot
             tag_ids = [d['tag_id'] for d in self.path_y_position_data]
             y_vals = [d['y_pos_mm'] for d in self.path_y_position_data]
-            colors = np.arange(len(self.path_y_position_data))
             plt.figure(figsize=(12, 8))
-            scatter = plt.scatter(tag_ids, y_vals, c=colors, cmap='cividis', alpha=0.7, edgecolors='k')
-            plt.colorbar(scatter, label='Time Progression (Early to Late)')
+            plt.scatter(range(len(y_vals)), y_vals, alpha=0.7, edgecolors='k')
+
             plt.title('Path Following Accuracy (Y-position at each Tag)')
-            plt.xlabel('Tag ID')
-            plt.ylabel('Y Position (mm)')
+            plt.xlabel('Measurement Sequence')
+            plt.ylabel('Average Y Position (mm)')
             plt.axhline(0, color='black', lw=1)
             plt.axhline(self.PATH_Y_TOLERANCE_MM, color='r', linestyle='--', label=f'Tolerance (+{self.PATH_Y_TOLERANCE_MM}mm)')
             plt.axhline(-self.PATH_Y_TOLERANCE_MM, color='r', linestyle='--', label=f'Tolerance (-{self.PATH_Y_TOLERANCE_MM}mm)')
-            plt.xticks(sorted(list(self.PATH_TARGET_TAG_IDS)))
             plt.grid(True, linestyle='--', alpha=0.6, axis='y')
             plt.legend()
             plt.savefig('path_y_positions_scatter.png')
@@ -342,13 +335,21 @@ def main():
     node = AgvPerformanceTester()
 
     waypoints = [
-        make_pose(2.0, 0.0, -1.571),
-        make_pose(2.0, -7.0, -3.141),
-        make_pose(0.0, -7.0, 0.0),
-        make_pose(2.0, -7.0, 1.571),
-        make_pose(2.0, 0.0, 3.141),
-        make_pose(0.0, 0.0, 0.0)
+        # make_pose(2.0, 0.0, -1.571),
+        # make_pose(2.0, -7.0, -3.141),
+        # make_pose(0.0, -7.0, 0.0),
+        # make_pose(2.0, -7.0, 1.571),
+        # make_pose(2.0, 0.0, 3.141),
+        # make_pose(0.0, 0.0, 0.0)
+        make_pose(2.0, 0.0, 0.0),
+        make_pose(2.0, -7.0, -1.571),
+        make_pose(0.0, -7.0, -3.141),
+        make_pose(2.0, -7.0, 0.0),
+        make_pose(2.0, 0.0, 1.571),
+        make_pose(0.0, 0.0, 3.141)
     ]
+    
+    lap_times = [] # 왕복 시간 기록을 위한 리스트
 
     try:
         repeat_count = int(input(">> 왕복 실험 횟수를 입력하세요: "))
@@ -365,22 +366,34 @@ def main():
 
         for i in range(repeat_count):
             node.get_logger().info(f"\n★★★★★ 왕복 {i+1}/{repeat_count} 시작 ★★★★★")
+            lap_start_time = time.time() # 왕복 시작 시간 기록
             success = True
+            
             for wp_idx, pose in enumerate(waypoints):
                 success = node.go_to_pose(pose, wp_idx)
                 if not success:
                     node.get_logger().error(f"WP-{wp_idx} 이동 실패! 현재 랩을 중단합니다.")
                     break
+            
             if not success:
                 break
-            node.get_logger().info(f"🎉 왕복 {i+1}회 완료! 🎉")
+            
+            lap_end_time = time.time() # 왕복 종료 시간 기록
+            lap_duration = lap_end_time - lap_start_time
+            lap_times.append(lap_duration)
+            node.get_logger().info(f"🎉 왕복 {i+1}회 완료! (소요 시간: {lap_duration:.2f}초) 🎉")
 
     except KeyboardInterrupt:
         node.get_logger().info("\n사용자에 의해 테스트가 중단되었습니다.")
     except Exception as e:
         node.get_logger().error(f"테스트 중 예외 발생: {e}")
     finally:
-        node.set_goal_tolerance(node.DEFAULT_XY_TOL)
+        if lap_times:
+            avg_lap_time = np.mean(lap_times)
+            node.get_logger().info("\n" + "="*60)
+            node.get_logger().info(f"📊 최종 결과: 평균 왕복 소요 시간: {avg_lap_time:.2f}초")
+            node.get_logger().info("="*60)
+            
         node.save_and_plot_results()
         node.destroy_node()
         rclpy.shutdown()
