@@ -6,8 +6,6 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
 def generate_launch_description():
-
-    # 각 패키지의 공유 디렉토리 경로를 찾습니다.
     tr_real_dir = get_package_share_directory('tr_real')
     tr_description_dir = get_package_share_directory('tr_description')
     tr_driver_dir = get_package_share_directory('tr_driver')
@@ -18,8 +16,6 @@ def generate_launch_description():
     ekf_config_path = os.path.join(tr_real_dir, 'configs', 'robot_localization_ekf.yaml')
     integrate_laser_launch_file_dir = os.path.join(get_package_share_directory('laser_scan_integrator'), 'launch')
 
-
-    # IncludeLaunchDescription을 사용하여 다른 런치 파일을 포함합니다.
     launch_tr_description = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(tr_description_dir, 'launch', 'tr_description.launch.py')
@@ -37,17 +33,16 @@ def generate_launch_description():
             os.path.join(tr_kinematics_dir, 'launch', 'kinematics.launch.py')
         ),
         launch_arguments={
-            'use_sim_time': 'false'  # kinematics.launch.py에 use_sim_time 값 전달
+            'use_sim_time': 'false'
         }.items()
     )
-    
+
     launch_sick_lidar = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(sick_safetyscanners_dir, 'launch', 'sick_safetyscanners2_launch.py')
         )
     )
 
-    # 파라미터(Launch Argument)를 전달하는 올바른 방법
     launch_teleop_joy = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(teleop_twist_joy_dir, 'launch', 'teleop-launch.py')
@@ -79,7 +74,6 @@ def generate_launch_description():
         remappings=[('odometry/filtered', 'odom')]
     )
 
-    # LaunchDescription을 생성하고 action들을 추가합니다.
     ld = LaunchDescription()
 
     ld.add_action(launch_tr_driver)

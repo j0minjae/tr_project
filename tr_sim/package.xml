@@ -4,7 +4,7 @@
   <name>tr_sim</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="daumpark@todo.todo">daumpark</maintainer>
+  <maintainer email="doumpork@khu.ac.kr">daumpark</maintainer>
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
@@ -12,7 +12,6 @@
   <exec_depend>launch_ros</exec_depend>
   <exec_depend>navigation2</exec_depend>
   <exec_depend>slam_toolbox</exec_depend>
-  <!-- <exec_depend>neo_nav2_bringup</exec_depend> -->
   <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>controller_manager</exec_depend>
   <exec_depend>gazebo_ros2_control</exec_depend>

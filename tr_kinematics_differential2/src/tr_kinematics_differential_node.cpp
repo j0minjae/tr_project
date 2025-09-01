@@ -1,5 +1,35 @@
 /*********************************************************************
- * (Copyright 내용은 기존과 동일하여 생략)
+ * Software License Agreement (BSD License)
+ *
+ *  Copyright (c) 2011, Neobotix GmbH
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above
+ *     copyright notice, this list of conditions and the following
+ *     disclaimer in the documentation and/or other materials provided
+ *     with the distribution.
+ *   * Neither the name of the Neobotix nor the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ *  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ *  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
 #include "Kinematics.h"
@@ -27,10 +57,6 @@ public:
     }
 
 	int init() {
-        // <<< CHANGED: 수동 파라미터 선언(declare_parameter) 부분을 모두 제거 >>>
-        // 파라미터 선언은 launch 파일과 NodeOptions가 자동으로 처리합니다.
-        // YAML 파일에 모든 파라미터가 정의되어 있으므로 코드에서는 get_parameter로 값을 가져오기만 합니다.
-
 		this->get_parameter("wheelDiameter", wheelDiameter);
 		this->get_parameter("wheelSeperation", axisLength);
 		this->get_parameter("odomFrame", odomFrame);
@@ -39,8 +65,6 @@ public:
         this->get_parameter("use_sim_time", use_for_simulation_);
         this->get_parameter("cmd_vel_timeout", cmd_vel_timeout_);
 
-        // sendTransform 파라미터는 YAML에 없으므로, 여기서 선언하고 값을 가져오는 것이 좋습니다.
-        // 혹은 YAML 파일에 추가해도 됩니다.
         this->declare_parameter<bool>("sendTransform", false);
         this->get_parameter("sendTransform", sendTransform);
 
@@ -64,7 +88,7 @@ public:
 		kin = diffKin;
 
         watchdog_timer_ = this->create_wall_timer(
-            std::chrono::milliseconds(5), // 0.1초 주기로 체크
+            std::chrono::milliseconds(5),
             std::bind(&PlatformCtrlNode::watchdog, this)
         );
 
@@ -112,10 +136,9 @@ public:
 private:
     void watchdog()
     {
-        // 0.2초 이상 새로운 cmd_vel 메시지가 없으면 정지 명령을 발행
         if ((this->get_clock()->now() - last_cmd_vel_time_).seconds() > cmd_vel_timeout_)
         {
-            auto stop_twist = std::make_shared<const geometry_msgs::msg::Twist>(); // 내용은 모두 0.0
+            auto stop_twist = std::make_shared<const geometry_msgs::msg::Twist>();
 
             if (use_for_simulation_) {
                 std_msgs::msg::Float64MultiArray vel_cmd;

@@ -1,5 +1,35 @@
 /*********************************************************************
- * (Copyright 내용은 기존과 동일하여 생략)
+ * Software License Agreement (BSD License)
+ *
+ *  Copyright (c) 2011, Neobotix GmbH
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above
+ *     copyright notice, this list of conditions and the following
+ *     disclaimer in the documentation and/or other materials provided
+ *     with the distribution.
+ *   * Neither the name of the Neobotix nor the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ *  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ *  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
 #include "DiffDrive2WKinematics.h"
@@ -10,12 +40,11 @@
 
 DiffDrive2WKinematics::DiffDrive2WKinematics() {}
 
-// 함수 정의를 헤더파일과 일치시킵니다.
 void DiffDrive2WKinematics::execForwKin(const std::shared_ptr<const sensor_msgs::msg::JointState>& js, nav_msgs::msg::Odometry& odom)
 {
 	const double vel_x = 0.5 * (js->velocity[0] + js->velocity[1]) * (m_dDiam * 0.5);
 	const double yaw_rate = -(js->velocity[0] - js->velocity[1]) * (m_dDiam * 0.5) / m_dAxisLength;
-	if(m_curr_odom.header.stamp.sec != 0) // 초기값이 0이 아닐 때만 계산하도록 조건 수정
+	if(m_curr_odom.header.stamp.sec != 0)
 	{
 		const double t_js = rclcpp::Time(js->header.stamp).seconds();
 		const double t_odom = rclcpp::Time(m_curr_odom.header.stamp).seconds();
@@ -40,7 +69,6 @@ void DiffDrive2WKinematics::execForwKin(const std::shared_ptr<const sensor_msgs:
 	odom = m_curr_odom;
 }
 
-// 함수 정의를 헤더파일과 일치시킵니다.
 void DiffDrive2WKinematics::execInvKin(const std::shared_ptr<const geometry_msgs::msg::Twist>& twist, trajectory_msgs::msg::JointTrajectory& traj)
 {
     constexpr double DT = 0.02;
@@ -51,14 +79,13 @@ void DiffDrive2WKinematics::execInvKin(const std::shared_ptr<const geometry_msgs
 	const double w_left  = (twist->linear.x - 0.5 * twist->angular.z * m_dAxisLength) * 2.0 / m_dDiam;
     const double w_right = (twist->linear.x + 0.5 * twist->angular.z * m_dAxisLength) * 2.0 / m_dDiam;
     
-    traj.points.resize(1); // Point 배열 크기를 1로 설정
+    traj.points.resize(1);
     traj.points[0].velocities.resize(2);
     traj.points[0].velocities[0] = w_left;
     traj.points[0].velocities[1] = w_right;
     traj.points[0].time_from_start = rclcpp::Duration::from_seconds(DT);
 }
 
-// 함수 정의를 헤더파일과 일치시킵니다.
 void DiffDrive2WKinematics::execInvKin(const std::shared_ptr<const geometry_msgs::msg::Twist>& twist, std_msgs::msg::Float64MultiArray& VelCmd)
 {
     const double w_left  = (twist->linear.x - 0.5 * twist->angular.z * m_dAxisLength) * 2.0 / m_dDiam;

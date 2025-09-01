@@ -7,9 +7,9 @@ ekf_localization:
 
     # FRAME PARAMETERS
     map_frame: map
-    odom_frame: odom          # EKF가 발행할 좌표계. 최종 odom.
+    odom_frame: odom
     base_link_frame: base_footprint
-    world_frame: odom         # map_frame이 있다면 map으로, 없다면 odom으로 설정.
+    world_frame: odom
 
     # ODOMETRY INPUT (from Kinematics)
     odom0: /odom1
@@ -22,7 +22,6 @@ ekf_localization:
     odom0_queue_size: 5
 
     # IMU INPUT (from IMU sensor)
-    # IMU 필터링을 거친 /imu/data 토픽을 사용하도록 설정합니다. (아래 2번 항목 참고)
     imu0: /gazebo_ros_imu_sensor/out
     imu0_config: [false, false, false,
                   true,  true,  true,   # roll, pitch, yaw orientation
@@ -30,5 +29,5 @@ ekf_localization:
                   true,  true,  true,   # roll, pitch, yaw angular velocity
                   false, false, false]
     imu0_differential: false
-    imu0_remove_gravitational_acceleration: true # IMU의 중력 가속도 제거
+    imu0_remove_gravitational_acceleration: true
     imu0_queue_size: 5

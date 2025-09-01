@@ -36,13 +36,11 @@ def generate_launch_description():
     use_multi_robots = LaunchConfiguration('use_multi_robots')
     use_rviz = LaunchConfiguration('use_rviz')
 
-    # --- [수정 1] lifecycle_nodes 리스트에 새로 추가할 노드들의 이름을 추가합니다. ---
     lifecycle_nodes = ['controller_server',
                        'planner_server',
                        'behavior_server',
                        'bt_navigator',
                        'waypoint_follower',
-                    #    'velocity_smoother',
                         ]
 
     remappings = [('/tf', 'tf'),
@@ -60,7 +58,6 @@ def generate_launch_description():
 
             convert_types=True)
 
-    # ... (DeclareLaunchArgument 부분은 변경 없음) ...
     declare_namespace_cmd = DeclareLaunchArgument(
         'namespace',
         default_value='',
@@ -121,17 +118,6 @@ def generate_launch_description():
                 output='screen',
                 parameters=[configured_params],
                 remappings=remappings),
-            # Node(
-            #     package='nav2_velocity_smoother',
-            #     executable='velocity_smoother',
-            #     name='velocity_smoother',
-            #     output='screen',
-            #     parameters=[configured_params],
-            #     remappings=remappings + [
-            #         ('/cmd_vel_smoothed', 'cmd_vel_nav')
-            #     ]),
-            # ----------------------------------------------------------------
-
             Node(
                 package='nav2_lifecycle_manager',
                 executable='lifecycle_manager',
@@ -139,7 +125,7 @@ def generate_launch_description():
                 output='screen',
                 parameters=[{'use_sim_time': use_sim_time},
                             {'autostart': autostart},
-                            {'node_names': lifecycle_nodes}]), # 수정된 lifecycle_nodes 리스트가 전달됨
+                            {'node_names': lifecycle_nodes}]),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
                     os.path.join(bringup_dir, 'launch', 'rviz_launch.py')
@@ -165,6 +151,5 @@ def generate_launch_description():
 
     # Add the actions to launch all of the navigation nodes
     ld.add_action(load_nodes)
-    # ld.add_action(load_nodes_multi_robot) # 필요하다면 이쪽에도 동일하게 추가해야 합니다.
 
     return ld

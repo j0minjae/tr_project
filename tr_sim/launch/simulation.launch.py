@@ -30,7 +30,7 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
     ekf_config_path = os.path.join(get_package_share_directory('tr_sim'), 'configs', 'robot_localization_ekf.yaml')
 
     # ---------- Gazebo world ----------------------------------------------
-    if world_name in ("warehouse", "test"):
+    if world_name in ("test", "warehouse"):
         world_path = os.path.join(tr_sim_share, 'worlds', f'{world_name}.world')
     else:
         world_path = world_name
@@ -43,7 +43,7 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
         launch_arguments={
             'world': world_path,
             'verbose': 'true',
-            'use_sim_time': use_sim_time_arg # Gazebo에 sim_time 사용 전달
+            'use_sim_time': use_sim_time_arg
         }.items()
     )
 
@@ -61,7 +61,7 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
         executable='robot_state_publisher',
         output='screen',
         parameters=[{
-            'use_sim_time': use_sim_time_arg, # sim_time 파라미터 적용
+            'use_sim_time': use_sim_time_arg,
             'robot_description': robot_description_content
         }]
     )
@@ -79,7 +79,7 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
             os.path.join(get_package_share_directory('tr_kinematics_differential2'), 'launch', 'kinematics.launch.py')
         ),
         launch_arguments={
-            'use_sim_time': use_sim_time_arg  # kinematics.launch.py에 use_sim_time 값 전달
+            'use_sim_time': use_sim_time_arg
         }.items()
     )
 
@@ -161,8 +161,8 @@ def generate_launch_description():
         # Launch argument for selecting the world
         DeclareLaunchArgument(
             'world',
-            default_value='warehouse',
-            description='Available worlds: "warehouse" or a full path to a world file'
+            default_value='test',
+            description='Available worlds: "test", "warehouse" or a full path to a world file'
         ),
 
         # Launch argument for using simulation time

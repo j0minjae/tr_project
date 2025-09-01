@@ -130,12 +130,10 @@ controller_server:
       stateful: True
     FollowPath:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
-      # 4. RotationShimController의 파라미터 설정
       angular_dist_threshold: 0.5
       angular_disengage_threshold: 0.35
       rotate_to_goal_heading: true
       rotate_to_heading_angular_vel: 1.0
-      # 5. 감싸고자 하는 주행 컨트롤러(Primary Controller) 지정
       primary_controller: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
       desired_linear_vel: 1.0
       use_velocity_scaled_lookahead_dist: True
@@ -182,8 +180,8 @@ local_costmap:
         enabled: True
         filter_info_topic: "/costmap_filter_info"
         speed_limit_topic: "/speed_limit"
-      always_send_full_costmap: True      
-      
+      always_send_full_costmap: True
+
 global_costmap:
   global_costmap:
     ros__parameters:
@@ -201,7 +199,7 @@ global_costmap:
       plugins: ["static_layer", "speed_filter"]
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True      
+        map_subscribe_transient_local: True
       # obstacle_layer:
       #   plugin: "nav2_costmap_2d::ObstacleLayer"
       #   enabled: True
@@ -275,17 +273,3 @@ waypoint_follower:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
       enabled: True
       waypoint_pause_duration: 200
-
-# velocity_smoother:
-#   ros__parameters:
-#     smoothing_frequency: 100.0
-#     feedback: "CLOSED_LOOP"
-#     max_velocity: [1.0, 0.0, 1.0]
-#     min_velocity: [-0.3, 0.0, -1.0]
-#     max_accel: [0.1, 0.0, 0.5]
-#     max_decel: [-0.6, 0.0, -0.8]
-#     odom_topic: "odom"
-#     odom_duration: 0.1
-#     deadband_velocity: [0.02, 0.0, 0.08]
-#     velocity_timeout: 1.0
-

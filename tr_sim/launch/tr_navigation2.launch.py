@@ -6,12 +6,11 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PythonExpression
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch.conditions import IfCondition
 
 def generate_launch_description():
-    # ========== [추가된 부분 1] speed zone 사용 여부 파라미터 선언 ==========
     declare_use_speed_zone_arg = DeclareLaunchArgument(
         'use_speed_zone',
         default_value='True',
@@ -26,7 +25,6 @@ def generate_launch_description():
 
     map_name = LaunchConfiguration('map_name')
 
-    # ========== [추가된 부분 2] 선언한 파라미터의 값을 가져옴 ==========
     use_speed_zone = LaunchConfiguration('use_speed_zone')
 
     map_dir = [
@@ -51,14 +49,13 @@ def generate_launch_description():
     sim_launch_file_dir = os.path.join(get_package_share_directory('tr_sim'), 'launch')
 
     return LaunchDescription([
-        # 위에서 선언한 인자들을 런치 설명에 추가합니다.
         declare_use_speed_zone_arg,
         declare_map_name_arg,
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/localization_amcl.launch.py']),
             launch_arguments={
-                'map': map_dir, # 동적으로 생성된 맵 경로를 전달합니다.
+                'map': map_dir,
                 'use_sim_time': use_sim_time,
                 'use_multi_robots': use_multi_robots,
                 'params_file': param_dir,

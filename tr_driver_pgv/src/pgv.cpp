@@ -65,7 +65,6 @@ void PGV::initSerial()
         }
         else
         {
-            // [수정] 시리얼 포트 연결 실패 시 경고 메시지 출력
             RCLCPP_WARN(this->get_logger(), "Failed to open serial port /dev/ttyUSB0. Retrying...");
             loop_rate.sleep();
         }
@@ -115,7 +114,6 @@ void PGV::pgvPublishingTimer()
         }
     }
 
-    // 데이터 파싱 부분 (기존과 동일)
     std::bitset<7> lane_detect_byte1(read_buf_[0]);
     std::bitset<7> lane_detect_byte0(read_buf_[1]);
     std::string agv_lane_detect_str = lane_detect_byte1.to_string() + lane_detect_byte0.to_string();
@@ -184,15 +182,13 @@ void PGV::pgvPublishingTimer()
     pgv_msg.tag_id = tag_id;
     pgv_msg.header.stamp = this->now();
 
-    // [수정] 퍼블리시 직전에 항상 로그를 출력하여 터미널에서 확인
     RCLCPP_INFO(this->get_logger(), "Publishing PGV Data -> Tag ID: [%d], Pos (x, y, ang): [%.2f, %.2f, %.2f]",
                 pgv_msg.tag_id, pgv_msg.x_pos, pgv_msg.y_pos, pgv_msg.angle);
 
     pgv_pub_->publish(pgv_msg);
 
     write(serial_port_, pos_req_, 2);
-    
-    // 이 아래의 기존 로그는 큰 움직임이 있을 때만 기록하므로 그대로 둡니다.
+
     if (pgv_msg.x_pos != 0.0 || pgv_msg.y_pos != 0.0 || pgv_msg.angle != 0.0)
     {
         if (abs(pgv_msg.x_pos - pgv_x_prev_) > 0.4 || abs(pgv_msg.y_pos - pgv_y_prev_) > 0.4 || (pgv_msg.angle - pgv_angle_prev_) > 0.2)
@@ -214,7 +210,6 @@ void PGV::pgvPublishingTimer()
 }
 void PGV::wheelControlCallback(const tr_driver_msgs::msg::WheelControl::SharedPtr msg)
 {
-    // WheelControl.msg에 상수를 정의했으므로 그대로 사용합니다.
     v_wheel_sub_[0] = msg->data[tr_driver_msgs::msg::WheelControl::LEFT_WALK].position;
     v_wheel_sub_[1] = msg->data[tr_driver_msgs::msg::WheelControl::RIGHT_WALK].position;
 
@@ -294,7 +289,7 @@ void PGV::calculateWheelRadius(const Pose &p1, const Pose &p2,
     double wheel_rotation_right = (enc_right - prev_enc_right) / (double)enc_pulse / gear_walk;
     double radius_left = delta_s_left / (wheel_rotation_left * 2 * M_PI);
     double radius_right = delta_s_right / (wheel_rotation_right * 2 * M_PI);
-    // 이 변수들은 현재 사용되지 않으므로, 값을 출력하거나 나중에 사용할 수 있습니다.
+
     (void)radius_left;
     (void)radius_right;
 }

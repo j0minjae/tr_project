@@ -113,7 +113,7 @@ bt_navigator_navigate_to_pose_rclcpp_node:
 
 controller_server:
   ros__parameters:
-    controller_frequency: 100.0
+    controller_frequency: 20.0
     progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"]
     controller_plugins: ["FollowPath"]
@@ -125,34 +125,15 @@ controller_server:
       movement_time_allowance: 30.0
     general_goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.03
-      yaw_goal_tolerance: 0.1
+      xy_goal_tolerance: 0.05
+      yaw_goal_tolerance: 0.2
       stateful: True
-    # FollowPath:
-    #   plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-    #   desired_linear_vel: 1.0
-    #   use_velocity_scaled_lookahead_dist: True
-    #   lookahead_dist: 1.0
-    #   min_lookahead_dist: 0.3
-    #   max_lookahead_dist: 1.2
-    #   use_regulated_linear_velocity_scaling: true
-    #   use_cost_regulated_linear_velocity_scaling: false
-    #   use_rotate_to_heading: True
-    #   rotate_to_heading_angular_vel: 1.5
-    #   allow_reversing: false
-    #   max_linear_accel: 1.0
-    #   min_approach_linear_velocity: 0.03
-    #   approach_velocity_scaling_dist: 1.0
-    #   max_angular_accel: 3.0
-    #   max_allowed_time_to_collision: 1.0
-    #   rotate_to_heading_min_angle: 0.1
     FollowPath:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
-      # 4. RotationShimController의 파라미터 설정
-      angular_dist_threshold: 0.1
-      angular_disengage_threshold: 0.05
+      angular_dist_threshold: 0.5
+      angular_disengage_threshold: 0.35
       rotate_to_goal_heading: true
-      # 5. 감싸고자 하는 주행 컨트롤러(Primary Controller) 지정
+      rotate_to_heading_angular_vel: 1.0
       primary_controller: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
       desired_linear_vel: 1.0
       use_velocity_scaled_lookahead_dist: True
@@ -243,7 +224,7 @@ global_costmap:
 map_server:
   ros__parameters:
     use_sim_time: False
-    yaml_filename: "warehouse.yaml"
+    yaml_filename: "neo_track1.yaml"
 
 map_saver:
   ros__parameters:
@@ -259,10 +240,6 @@ planner_server:
     use_sim_time: False
     planner_plugins: ["GridBased"]
     GridBased:
-      # plugin: "nav2_navfn_planner/NavfnPlanner"
-      # tolerance: 0.5
-      # use_astar: true
-      # allow_unknown: true
       plugin: "nav2_straightline_planner/StraightLine"
       interpolation_resolution: 0.1
 
@@ -283,9 +260,9 @@ behavior_server:
     transform_timeout: 0.1
     use_sim_time: False
     simulate_ahead_time: 2.0
-    max_rotational_vel: 1.2
+    max_rotational_vel: 0.5
     min_rotational_vel: 0.3
-    rotational_acc_lim: 1.0
+    rotational_acc_lim: 0.8
 
 waypoint_follower:
   ros__parameters:
@@ -296,16 +273,3 @@ waypoint_follower:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
       enabled: True
       waypoint_pause_duration: 200
-
-# velocity_smoother:
-#   ros__parameters:
-#     smoothing_frequency: 100.0
-#     feedback: "CLOSED_LOOP"
-#     max_velocity: [1.0, 0.0, 2.0]
-#     min_velocity: [0.0, 0.0, -2.0]
-#     max_accel: [0.8, 0.0, 1.5]
-#     max_decel: [-1.0, 0.0, -2.0]
-#     odom_topic: "odom"
-#     odom_duration: 0.1
-#     velocity_timeout: 1.0
-#     use_sim_time: false
