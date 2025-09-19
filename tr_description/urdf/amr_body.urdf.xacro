@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot name="amr">
+<robot name="amr" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="use_arm" default="false"/>
 
     <link name="base_footprint"/>
-
     <link name="base_link">
         <inertial>
             <origin xyz="0.008984021257939274 -6.479702430833408e-06 0.007183147979859465" rpy="0.0 0.0 0.0" />
@@ -24,7 +24,7 @@
     </link>
 
     <joint name="base_link_joint" type="fixed">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 3" rpy="0 0 0"/>
         <parent link="base_footprint"/>
         <child  link="base_link"/>
     </joint>
@@ -452,5 +452,10 @@
         <child link="caster_wheel_rear_right" />
         <axis xyz="0.0 0.0 1.0" />
     </joint>
+
+    <xacro:include filename="openarm_bimanual_sim.urdf.xacro" />
+    <xacro:if value="$(arg use_arm)">
+        <xacro:amr_dual_arm />
+    </xacro:if>
 
 </robot>

@@ -19,7 +19,7 @@ def generate_launch_description():
 
     declare_map_name_arg = DeclareLaunchArgument(
         'map_name',
-        default_value='warehouse',
+        default_value='test',
         description='Name of the map file in tr_real/maps directory (without .yaml extension)'
     )
 

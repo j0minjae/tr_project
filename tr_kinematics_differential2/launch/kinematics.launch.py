@@ -24,7 +24,10 @@ def generate_launch_description():
         parameters=[
             param_file,
             {'use_sim_time': launch.substitutions.LaunchConfiguration('use_sim_time')}
-        ]
+        ],
+        remappings=[
+            ('/joint_states', '/kinematics/joint_states')
+        ],
     )
 
     return launch.LaunchDescription([

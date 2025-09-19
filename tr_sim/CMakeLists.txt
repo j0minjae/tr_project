@@ -9,6 +9,7 @@ install(DIRECTORY launch
   worlds
   components
   models
+  rviz
   DESTINATION share/${PROJECT_NAME})
 
 ament_package()

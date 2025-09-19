@@ -15,13 +15,16 @@ from launch_ros.actions import Node
 from launch.event_handlers import OnProcessExit
 import os
 import xacro
+import yaml
+import tempfile
 
-def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
+def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg, use_arm):
     """
     This function is executed by OpaqueFunction and sets up all nodes and actions.
     """
     # Get the actual values from the launch arguments
     world_name = world_name_arg.perform(context)
+    use_arm_str = use_arm.perform(context)
 
     # Package paths
     tr_sim_share = get_package_share_directory('tr_sim')
@@ -53,7 +56,10 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
 
     robot_description_content = xacro.process_file(
         robot_description_xacro,
-        mappings={'use_gazebo': 'true', 'controller_yaml_path': controller_yaml_path, 'lidar_macro_path': lidar_macro_path}
+        mappings={'use_gazebo': 'true',
+                  'use_arm': use_arm_str,
+                  'controller_yaml_path': controller_yaml_path, 
+                  'lidar_macro_path': lidar_macro_path}
     ).toxml()
 
     robot_state_publisher_node = Node(
@@ -62,8 +68,19 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
         output='screen',
         parameters=[{
             'use_sim_time': use_sim_time_arg,
-            'robot_description': robot_description_content
-        }]
+            'robot_description': robot_description_content,
+        }],
+    )
+    
+    joint_state_publisher_node = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        parameters=[{
+            'use_sim_time': use_sim_time_arg,
+            # source_list를 '/dynamic_joint_states' 하나만 받도록 수정합니다.
+            'source_list': ['/joint_state_broadcaster/dynamic_joint_states'],
+        }],
     )
 
     # Spawn Entity Node
@@ -80,7 +97,7 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
         ),
         launch_arguments={
             'use_sim_time': use_sim_time_arg
-        }.items()
+        }.items(),
     )
 
     launch_twist_mux = IncludeLaunchDescription(
@@ -109,6 +126,7 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
         }.items()
     )
 
+    ######Add conroller 
     spawn_jsb_node = Node(
         package='controller_manager',
         executable='spawner',
@@ -125,7 +143,19 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
                     executable='spawner',
                     arguments=['velocity_controller', '-c', '/controller_manager'],
                     output='screen',
-                )
+                ),
+                Node(
+                    package='controller_manager',
+                    executable='spawner',
+                    arguments=['left_arm_controller', '-c', '/controller_manager'],
+                    output='screen',
+                ),
+                Node(
+                    package='controller_manager',
+                    executable='spawner',
+                    arguments=['right_arm_controller', '-c', '/controller_manager'],
+                    output='screen',
+                ),
             ]
         )
     )
@@ -142,23 +172,39 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg):
     return [
         gazebo,
         robot_state_publisher_node,
+        # joint_state_publisher_node,
         spawn_entity_node,
         kinematics_launch,
-        teleop_node,
+        # teleop_node,
         spawn_jsb_node,
         delay_controller_spawner,
         node_ekf,
         launch_twist_mux,
         launch_laser_integrator
     ]
+def rviz_spawner(context: LaunchContext,use_sim_time_arg):
+    rviz_config_path = os.path.join(
+        get_package_share_directory("tr_sim"),
+        "rviz", "tr_description.rviz"
+    )
 
+    return [
+        Node(
+            package="rviz2",
+            executable="rviz2",
+            name="rviz2",
+            arguments=["--display-config", rviz_config_path],
+            parameters=[{'use_sim_time': use_sim_time_arg}],
+            output="screen"
+        ),
+    ]
 
 def generate_launch_description():
     """
     Main launch function.
     """
     return LaunchDescription([
-        # Launch argument for selecting the world
+        # Launch argument for selecting the world,
         DeclareLaunchArgument(
             'world',
             default_value='test',
@@ -171,13 +217,25 @@ def generate_launch_description():
             default_value='true',
             description='Use simulation (Gazebo) clock if true'
         ),
+        # Launch argument for using OpenArm
+        DeclareLaunchArgument(
+            "use_arm",
+            default_value="false",
+            description="Whether to use dual-arm"
+        ),
 
         # OpaqueFunction to access launch arguments
         OpaqueFunction(
             function=launch_setup,
             args=[
                 LaunchConfiguration('world'),
-                LaunchConfiguration('use_sim_time')
+                LaunchConfiguration('use_sim_time'),
+                LaunchConfiguration('use_arm'),
             ]
-        )
+        ),
+        OpaqueFunction(
+            function=rviz_spawner,
+            args=[LaunchConfiguration('use_sim_time')]
+        ),
+
     ])

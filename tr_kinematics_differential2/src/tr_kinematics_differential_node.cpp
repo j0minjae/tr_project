@@ -53,11 +53,7 @@ public:
 	PlatformCtrlNode(const rclcpp::NodeOptions & options)
     : Node("tr_differential_node", options)
     {
-
-    }
-
-	int init() {
-		this->get_parameter("wheelDiameter", wheelDiameter);
+        this->get_parameter("wheelDiameter", wheelDiameter);
 		this->get_parameter("wheelSeperation", axisLength);
 		this->get_parameter("odomFrame", odomFrame);
 		this->get_parameter("robotBaseFrame", robotBaseFrame);
@@ -94,8 +90,7 @@ public:
 
 		RCLCPP_INFO(this->get_logger(), "Kinematics node initialized.");
 		RCLCPP_INFO(this->get_logger(), "Simulation mode: %s", use_for_simulation_ ? "true" : "false");
-		return 0;
-	}
+    }
 
 	void receiveCmd(const geometry_msgs::msg::Twist::SharedPtr twist) {
         last_cmd_vel_time_ = this->get_clock()->now();
@@ -153,9 +148,9 @@ private:
         }
     }
 
-	Kinematics* kin = 0;
-	bool sendTransform = false;
-    bool use_for_simulation_ = false;
+	Kinematics* kin;
+	bool sendTransform;
+    bool use_for_simulation_;
 
 	rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr topicPub_Odometry;
 	rclcpp::Publisher<trajectory_msgs::msg::JointTrajectory>::SharedPtr topicPub_TrajectoryCommands;
@@ -185,9 +180,9 @@ int main (int argc, char** argv)
     options.automatically_declare_parameters_from_overrides(true);
 
 	auto nh = std::make_shared<PlatformCtrlNode>(options);
-	if(nh->init() != 0) {
-		RCLCPP_ERROR_STREAM(nh->get_logger(),"tr_kinematics_differential_node: init failed!");
-	}
+	// if(nh->init() != 0) {
+	// 	RCLCPP_ERROR_STREAM(nh->get_logger(),"tr_kinematics_differential_node: init failed!");
+	// }
 	rclcpp::spin(nh);
     rclcpp::shutdown();
 	return 0;

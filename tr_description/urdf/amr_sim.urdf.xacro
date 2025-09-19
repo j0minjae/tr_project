@@ -1,15 +1,47 @@
 <?xml version="1.0"?>
 <!-- This is the main URDF file for amr-->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="amr">
-
     <!--set use_gazebo = false for implementation on real robot-->
     <xacro:arg name="use_gazebo" default="true"/>
+    <xacro:arg name="use_arm" default="false"/>
+    
+
+    <xacro:include filename="$(find tr_description)/urdf/openarm.ros2_control.xacro" />
 
     <!-- import main body description -->
     <xacro:include filename="amr_body.urdf.xacro"/>
 
+
     <!-- If Simulation is used -->
     <xacro:if value="$(arg use_gazebo)">
         <xacro:include filename="amr_gazebo.urdf.xacro"/>
+
+        <ros2_control name="GazeboSystem" type="system">
+            <hardware>
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            </hardware>
+
+            <joint name="wheel_left_joint">
+                <command_interface name="velocity"/>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+            </joint>
+            <joint name="wheel_right_joint">
+                <command_interface name="velocity"/>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+            </joint>
+            <joint name="wheel_right_joint">
+                <command_interface name="velocity"/>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+            </joint>
+            <xacro:if value="$(arg use_arm)">
+                <xacro:single_arm_control prefix="openarm_left" />
+                <xacro:single_arm_control prefix="openarm_right" />
+            </xacro:if>
+        </ros2_control>
+        
     </xacro:if>
+
 </robot>
