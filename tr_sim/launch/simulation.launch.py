@@ -156,6 +156,12 @@ def launch_setup(context: LaunchContext, world_name_arg, use_sim_time_arg, use_a
                     arguments=['right_arm_controller', '-c', '/controller_manager'],
                     output='screen',
                 ),
+                Node(
+                    package='controller_manager',
+                    executable='spawner',
+                    arguments=['effort_controller', '-c', '/controller_manager'],
+                    output='screen',
+                ),
             ]
         )
     )
